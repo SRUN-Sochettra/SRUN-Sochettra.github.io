@@ -1,20 +1,53 @@
 "use client";
-import { useEffect, useRef, type CSSProperties } from "react";
+
+import { useEffect, useRef } from "react";
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { projects, site, type Scene } from "@/data/portfolio";
 
+/* ------------------------------------------------------------------ *
+ * Scroll-world background renderer
+ *
+ * Cold-start strategy (the actual first-visit win):
+ *  - Per-scene lazy load + next-scene prefetch (only current + next leg).
+ *  - Bounded-concurrency image queue (no 96-request burst per scene).
+ *  - Coarse "keyframe-first" fill: every Nth frame loads first so the
+ *    scrub has full-range coverage almost immediately, then the gaps
+ *    fill in. pickFrame() already degrades to nearest-ready frame.
+ *  - Optional lower-res mobile frame set (flip HAS_MOBILE_FRAMES once
+ *    /public/world/frames-mobile/<folder>/NNN.webp assets exist).
+ *  - First-scene loading skeleton that preserves stage geometry (no CLS).
+ *
+ * ASSET PIPELINE (not code - do these in your encode scripts):
+ *  - Reduce frames to ~48-60 per scene, then set FRAME_COUNT below.
+ *  - Recompress WebP at q70-75, cap width ~1280-1600px (desktop set).
+ *  - Optionally emit a narrower mobile set under /world/frames-mobile.
+ * ------------------------------------------------------------------ */
+
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+const NARROW_QUERY = "(max-width: 760px)";
 const DPR_CAP = 2;
-const FRAME_COUNT = 96; // frames 001–096 per scene folder (verified in /public/world/frames)
+
+// On-disk frames per scene folder. VERIFIED = 96 (001-096) in the repo.
+// When you re-encode to a shorter sequence, change this single constant
+// to match the new highest frame number (e.g. 60).
+const FRAME_COUNT = 96;
+
+// Load every Nth frame first (coarse pass), then backfill the rest.
+const KEYFRAME_STRIDE = 8;
+
+// Flip to true ONLY after the mobile frame set actually exists on disk,
+// otherwise narrow viewports would 404 every frame. Path convention:
+//   /public/world/frames-mobile/<folder>/NNN.webp
+const HAS_MOBILE_FRAMES = false;
 
 const pad = (n: number, len = 2) => String(n).padStart(len, "0");
-const framePath = (folder: string, n: number) =>
-  `/world/frames/${folder}/${pad(n, 3)}.webp`;
 const stillPath = (folder: string) => `/world/stills/${folder}.svg`;
 
 export default function ScrollWorld({ scenes }: { scenes: readonly Scene[] }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const skeletonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -24,7 +57,16 @@ export default function ScrollWorld({ scenes }: { scenes: readonly Scene[] }) {
     if (!ctx) return;
 
     const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY).matches;
-    // Folder names mirror scene order: "01-origin" … "07-contact".
+    const isNarrow = window.matchMedia(NARROW_QUERY).matches;
+    const useMobileFrames = HAS_MOBILE_FRAMES && isNarrow;
+    const framesRoot = useMobileFrames ? "/world/frames-mobile" : "/world/frames";
+    const framePath = (folder: string, n: number) =>
+      `${framesRoot}/${folder}/${pad(n, 3)}.webp`;
+
+    // Fewer parallel connections on constrained mobile links.
+    const MAX_CONCURRENT = isNarrow ? 3 : 6;
+
+    // Folder names mirror scene order: "01-origin" ... "07-contact".
     const folders = scenes.map((s, i) => `${pad(i + 1)}-${s.id}`);
 
     let dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
@@ -33,31 +75,59 @@ export default function ScrollWorld({ scenes }: { scenes: readonly Scene[] }) {
     let rafPending = false;
     let inView = true;
     let disposed = false;
+    let firstFramePainted = false;
 
     // ---- Image cache (no eviction; frames are small + immutably cached) ----
     const cache = new Map<string, HTMLImageElement>();
     const isReady = (img?: HTMLImageElement) =>
       !!img && img.complete && img.naturalWidth > 0;
 
-    const loadImage = (src: string) => {
-      let img = cache.get(src);
-      if (img) return img;
-      img = new Image();
-      img.decoding = "async";
-      img.onload = requestPaint;
-      img.src = src;
-      cache.set(src, img);
-      return img;
+    // ---- Bounded-concurrency load queue (priority = front of queue) --------
+    const queue: string[] = [];
+    const queued = new Set<string>();
+    let inFlight = 0;
+
+    const pump = () => {
+      if (disposed) return;
+      while (inFlight < MAX_CONCURRENT && queue.length > 0) {
+        const src = queue.shift();
+        if (!src) break;
+        if (cache.has(src)) continue; // already loading or loaded
+        const img = new Image();
+        img.decoding = "async";
+        cache.set(src, img);
+        inFlight++;
+        img.onload = () => {
+          inFlight--;
+          requestPaint();
+          pump();
+        };
+        img.onerror = () => {
+          inFlight--;
+          pump(); // keep draining even if one frame is missing
+        };
+        img.src = src;
+      }
     };
 
-    const ensureScene = (index: number) => {
+    const enqueue = (src: string, front = false) => {
+      if (cache.has(src) || queued.has(src)) return;
+      queued.add(src);
+      if (front) queue.unshift(src);
+      else queue.push(src);
+      pump();
+    };
+
+    const ensureScene = (index: number, priority = false) => {
       if (index < 0 || index >= folders.length) return;
       const folder = folders[index];
-      loadImage(stillPath(folder)); // instant poster fallback
-      for (let n = 1; n <= FRAME_COUNT; n++) loadImage(framePath(folder, n));
+      enqueue(stillPath(folder), priority); // instant poster fallback
+      // Coarse keyframes first (full-range coverage fast), then backfill.
+      for (let n = 1; n <= FRAME_COUNT; n += KEYFRAME_STRIDE) enqueue(framePath(folder, n), priority);
+      for (let n = 1; n <= FRAME_COUNT; n++) enqueue(framePath(folder, n));
     };
 
-    // Nearest ready frame ≤/≥ target, else the still, else null.
+    // Nearest ready frame <=/>= target, else the still, else null.
     const pickFrame = (index: number, target: number) => {
       const folder = folders[index];
       for (let off = 0; off < FRAME_COUNT; off++) {
@@ -119,6 +189,13 @@ export default function ScrollWorld({ scenes }: { scenes: readonly Scene[] }) {
       });
     };
 
+    const hideSkeleton = () => {
+      if (firstFramePainted) return;
+      firstFramePainted = true;
+      const el = skeletonRef.current;
+      if (el) el.dataset.visible = "false";
+    };
+
     const paint = () => {
       if (disposed || !inView) return;
       const w = canvas.clientWidth;
@@ -127,7 +204,7 @@ export default function ScrollWorld({ scenes }: { scenes: readonly Scene[] }) {
       if (sceneIndex !== activeScene) {
         activeScene = sceneIndex;
         updateRail(sceneIndex);
-        ensureScene(sceneIndex);
+        ensureScene(sceneIndex, true); // active leg jumps the queue
         ensureScene(sceneIndex + 1); // prefetch the next leg
       }
       // Reduced motion: hold the first frame per scene (no per-scroll scrub).
@@ -139,7 +216,10 @@ export default function ScrollWorld({ scenes }: { scenes: readonly Scene[] }) {
           );
       const img = pickFrame(sceneIndex, frameNo);
       ctx.clearRect(0, 0, w, h);
-      if (img) drawCover(img, w, h);
+      if (img) {
+        drawCover(img, w, h);
+        hideSkeleton();
+      }
     };
 
     function requestPaint() {
@@ -162,7 +242,7 @@ export default function ScrollWorld({ scenes }: { scenes: readonly Scene[] }) {
     };
 
     root.dataset.mode = reducedMotion ? "reduced" : "scroll";
-    ensureScene(0);
+    ensureScene(0, true);
     resize();
 
     window.addEventListener("resize", resize, { passive: true });
@@ -196,6 +276,8 @@ export default function ScrollWorld({ scenes }: { scenes: readonly Scene[] }) {
       window.removeEventListener("resize", resize);
       window.removeEventListener("orientationchange", resize);
       window.removeEventListener("scroll", requestPaint);
+      queue.length = 0;
+      queued.clear();
     };
   }, [scenes]);
 
@@ -204,8 +286,45 @@ export default function ScrollWorld({ scenes }: { scenes: readonly Scene[] }) {
 
   return (
     <div ref={rootRef} className="world" aria-label="Seven-scene portfolio journey">
+      <style>{`
+        .world-skeleton {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          opacity: 1;
+          transition: opacity 0.6s var(--ease, ease);
+          background:
+            radial-gradient(120% 80% at 20% 30%, color-mix(in srgb, var(--paper) 5%, transparent), transparent 60%),
+            var(--carbon, #121515);
+        }
+        .world-skeleton::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            100deg,
+            transparent 30%,
+            color-mix(in srgb, var(--paper) 6%, transparent) 50%,
+            transparent 70%
+          );
+          background-size: 220% 100%;
+          animation: worldSkeletonShimmer 1.6s ease-in-out infinite;
+        }
+        .world-skeleton[data-visible="false"] {
+          opacity: 0;
+        }
+        @keyframes worldSkeletonShimmer {
+          from { background-position: 180% 0; }
+          to { background-position: -80% 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .world-skeleton { transition: none; }
+          .world-skeleton::after { animation: none; }
+        }
+      `}</style>
       <div className="world-stage" aria-hidden="true">
         <canvas ref={canvasRef} className="world-canvas" />
+        <div ref={skeletonRef} className="world-skeleton" data-visible="true" />
       </div>
       <nav className="rail" aria-label="Journey scenes">
         {scenes.map((scene, index) => {

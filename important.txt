@@ -1,0 +1,2 @@
+run this locally first
+$env:BUILD_TARGET="gh-pages"; npm run build; Remove-Item Env:\BUILD_TARGET
