@@ -1,0 +1,15 @@
+{
+  "architecture": "A",
+  "stillModel": "gpt_image_2",
+  "videoModel": "seedance_2_0",
+  "sharedStyleSource": "production/brand-kit.md",
+  "scenes": [
+    {"id":"01-origin","move":"Slow desk-level forward glide toward the backend facility."},
+    {"id":"02-backend","move":"Low lateral track alongside the pipeline, ending in a slow forward drift."},
+    {"id":"03-product","move":"Gentle half-orbit around the product structures, then continue forward."},
+    {"id":"04-ai","move":"Push toward document-processing machinery, ease back within the same leg, then resume forward drift."},
+    {"id":"05-hardware","move":"Low workshop track with foreground parallax, ending forward."},
+    {"id":"06-open-source","move":"Gentle crane upward through the facility, then settle into forward motion."},
+    {"id":"07-contact","move":"Descending forward glide toward the terminal, ending in a stable slow drift."}
+  ]
+}

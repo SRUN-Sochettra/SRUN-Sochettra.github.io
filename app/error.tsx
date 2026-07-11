@@ -1,0 +1,1 @@
+"use client";export default function ErrorPage({reset}:{reset:()=>void}){return <main className="status"><p className="eyebrow">Application error</p><h1>The system hit a boundary.</h1><p>Your scroll position and data may not be preserved.</p><button className="button" onClick={reset}>Try again</button></main>}
