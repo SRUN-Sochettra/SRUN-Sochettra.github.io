@@ -1,3 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>http://localhost:3000</loc>
+</url>
+<url>
+<loc>http://localhost:3000/projects/eggscan</loc>
+</url>
+<url>
+<loc>http://localhost:3000/projects/hyperspace-os</loc>
+</url>
+<url>
+<loc>http://localhost:3000/projects/research-ai</loc>
+</url>
+<url>
+<loc>http://localhost:3000/projects/full-stack-portfolio</loc>
+</url>
+<url>
+<loc>http://localhost:3000/projects/khmer-banking</loc>
+</url>
+<url>
+<loc>http://localhost:3000/projects/spring-boot-blog-api</loc>
+</url>
+<url>
+<loc>http://localhost:3000/projects/hand-gesture-puzzle</loc>
+</url>
 </urlset>

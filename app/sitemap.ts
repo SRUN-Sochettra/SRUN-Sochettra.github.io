@@ -1,4 +1,8 @@
-import type {MetadataRoute} from "next";
-import {projects} from "@/data/portfolio";
+
+import type { MetadataRoute } from "next";
+import { projects } from "@/data/portfolio";
 export const dynamic = "force-static";
-export default function sitemap():MetadataRoute.Sitemap{const base=process.env.NEXT_PUBLIC_SITE_URL;if(!base)return[];return [{url:base,priority:1},...projects.map(p=>({url:`${base}/projects/${p.slug}`,priority:.7}))]}
+export default function sitemap(): MetadataRoute.Sitemap {
+  const origin = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  return [{ url: origin }, ...projects.map((project) => ({ url: `${origin}/projects/${project.slug}` }))];
+}

@@ -1,30 +1,32 @@
+
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Anybody, Geist, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { site } from "@/data/portfolio";
 
-const inter = Inter({
+const identity = Anybody({
   subsets: ["latin"],
-  variable: "--font-inter",
+  style: ["normal", "italic"],
+  axes: ["wdth"],
+  variable: "--font-identity",
   display: "swap",
 });
-const jetbrains = JetBrains_Mono({
+const sans = Geist({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+const mono = IBM_Plex_Mono({
   subsets: ["latin"],
-  variable: "--font-jetbrains",
+  weight: ["400", "500", "600"],
+  variable: "--font-mono",
   display: "swap",
 });
 
 const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-const hasSiteUrl = Boolean(configuredSiteUrl && configuredSiteUrl.length > 0);
-const metadataBase = new URL(
-  hasSiteUrl ? (configuredSiteUrl as string) : "http://localhost:3000",
-);
+const metadataBase = new URL(configuredSiteUrl || "http://localhost:3000");
 
 export const metadata: Metadata = {
   metadataBase,
   title: site.metaTitle,
   description: site.description,
-  alternates: hasSiteUrl ? { canonical: "/" } : undefined,
+  alternates: configuredSiteUrl ? { canonical: "/" } : undefined,
   openGraph: {
     title: site.metaTitle,
     description: site.ogDescription,
@@ -34,18 +36,13 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export const viewport: Viewport = {
-  themeColor: "#121515",
-  colorScheme: "dark",
-};
+export const viewport: Viewport = { themeColor: "#f0ede5", colorScheme: "light" };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrains.variable}`}>
+    <html lang="en" className={`${identity.variable} ${sans.variable} ${mono.variable}`}>
       <body>
-        <a className="skip" href="#main">
-          Skip to content
-        </a>
+        <a className="skip" href="#main">Skip to content</a>
         {children}
       </body>
     </html>

@@ -1,0 +1,1881 @@
+diff -ruN a/app/globals.css b/app/globals.css
+--- a/app/globals.css	2026-07-18 11:53:11.547604735 +0000
++++ b/app/globals.css	2026-07-18 11:51:47.843428249 +0000
+@@ -1,567 +1,602 @@
+-/* ==========================================================================
+-   SRUN — Systems in Motion
+-   "Executable Editorial" — a type-driven engineering portfolio.
+-   Single porcelain theme + one carbon inversion at the finale.
+-   The signature mechanism: variable-width display type that behaves
+-   like a system — expanding, compressing, settling.
+-   ========================================================================== */
+-
+-/* --------------------------------------------------------------------------
+-   Registered custom properties — make the type axes animatable via CSS.
+-   Falls back gracefully: unsupported browsers just use the initial value.
+-   -------------------------------------------------------------------------- */
+-@property --wm-w1 { syntax: "<number>"; inherits: true; initial-value: 150; }
+-@property --wm-g1 { syntax: "<number>"; inherits: true; initial-value: 850; }
+-@property --wm-w2 { syntax: "<number>"; inherits: true; initial-value: 82;  }
+-@property --wm-g2 { syntax: "<number>"; inherits: true; initial-value: 380; }
+-
++/* 01 Foundations */
+ :root {
+-  /* ---- Palette (one committed system) --------------------------------- */
+-  --porcelain: #e9e5db;   /* cool paper ground */
+-  --porcelain-2: #e0dbcf; /* slightly deeper surface */
+-  --carbon: #121410;      /* near-black, faint green cast */
+-  --ink: #16180f;
+-  --ink-soft: #34362a;
+-  --vermilion: #e33f26;   /* single hot accent */
+-  --copper: #b9653b;      /* secondary material */
+-  --teal: #163d3b;        /* rare structural accent */
+-  --lime: #b8d86a;        /* reserved: active / interactive state only */
+-  --gray: #6f6d63;
+-
+-  /* ---- Semantic ------------------------------------------------------- */
+-  --bg: var(--porcelain);
+-  --fg: var(--ink);
+-  --muted: var(--gray);
+-  --accent: var(--vermilion);
+-  --rule: color-mix(in srgb, var(--ink) 15%, transparent);
+-  --rule-strong: color-mix(in srgb, var(--ink) 32%, transparent);
+-  --surface: color-mix(in srgb, var(--ink) 4%, var(--porcelain));
+-
+-  /* ---- Type ----------------------------------------------------------- */
+-  --font-display: var(--font-display), "Arial Narrow", system-ui, sans-serif;
+-  --font-sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+-  --font-mono: var(--font-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+-
+-  /* Fluid scale — monumental display, calm body. */
+-  --step-mega: clamp(4.5rem, 20vw, 19rem);
+-  --step-hero: clamp(3rem, 11vw, 10rem);
+-  --step-h2: clamp(2.1rem, 6vw, 5rem);
+-  --step-h3: clamp(1.5rem, 3.2vw, 2.6rem);
+-  --measure: 66ch;
+-
+-  /* ---- Layout --------------------------------------------------------- */
+-  --margin: clamp(1.4rem, 4vw, 4.5rem);
+-  --maxw: 1520px;
+-
+-  /* ---- Motion --------------------------------------------------------- */
+-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+-  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+-
+-  color-scheme: light;
+-  font-family: var(--font-sans);
+-  color: var(--fg);
+-  background: var(--bg);
+-  scroll-behavior: smooth;
+-  -webkit-font-smoothing: antialiased;
+-  text-rendering: optimizeLegibility;
++  --paper: #ece8df;
++  --paper-deep: #dfd9ce;
++  --ink: #151612;
++  --ink-soft: #35362f;
++  --signal: #c83b2b;
++  --trace: #5f6758;
++  --rule: rgb(21 22 18 / 16%);
++  --rule-strong: rgb(21 22 18 / 38%);
++  --font-editorial: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
++  --max-width: 96rem;
++  --edge: clamp(1rem, 3.6vw, 4rem);
++  --section-space: clamp(5rem, 10vw, 10rem);
++  --focus: 3px solid var(--signal);
+ }
+ 
+ * { box-sizing: border-box; }
+-html, body { margin: 0; }
+-
++html { scroll-behavior: smooth; background: var(--paper); }
+ body {
+-  background: var(--bg);
+-  color: var(--fg);
+-  font-size: 1.0625rem;
+-  line-height: 1.6;
+-  overflow-x: hidden;
++  margin: 0;
++  background: var(--paper);
++  color: var(--ink);
++  font-family: var(--font-sans), Arial, sans-serif;
++  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
++  line-height: 1.65;
++  text-rendering: optimizeLegibility;
+ }
+-
+-::selection { background: var(--vermilion); color: var(--porcelain); }
+-
++body, main, section, div, article, header, footer { min-width: 0; }
++img { display: block; max-width: 100%; height: auto; }
+ a { color: inherit; text-decoration: none; }
+-a, button { outline-offset: 4px; }
+-a:focus-visible, button:focus-visible {
+-  outline: 2px solid var(--accent);
+-  border-radius: 1px;
+-}
+-img { max-width: 100%; display: block; }
++button, input, textarea, select { font: inherit; }
++::selection { background: var(--signal); color: var(--paper); }
++:target { scroll-margin-top: 5rem; }
++:focus-visible { outline: var(--focus); outline-offset: 4px; }
++:lang(km) { letter-spacing: normal !important; text-transform: none !important; }
+ 
+ .sr-only {
+-  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+-  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
++  position: absolute;
++  width: 1px;
++  height: 1px;
++  padding: 0;
++  margin: -1px;
++  overflow: hidden;
++  clip: rect(0, 0, 0, 0);
++  white-space: nowrap;
++  border: 0;
+ }
+ 
+ .skip {
+-  position: fixed; z-index: 100; top: 0.75rem; left: 0.75rem;
+-  padding: 0.7rem 1rem; background: var(--ink); color: var(--porcelain);
+-  font-family: var(--font-mono); font-size: 0.8rem;
+-  transform: translateY(-160%); transition: transform 0.2s var(--ease);
++  position: fixed;
++  top: 0.75rem;
++  left: 0.75rem;
++  z-index: 100;
++  transform: translateY(-160%);
++  background: var(--ink);
++  color: var(--paper);
++  padding: 0.65rem 0.9rem;
+ }
+ .skip:focus { transform: none; }
+ 
+-/* ---- Reusable atoms ------------------------------------------------------ */
++/* 02 Type roles */
++h1, h2, h3, p, figure, blockquote, dl, dd { margin-top: 0; }
++h2, h3 { text-wrap: balance; }
++.machine-label,
++.field-label,
++.field-notation,
++.system-feature__id,
++.field-note__index,
++.project-ledger__id,
++.project-ledger__stack,
++.project-ledger__category,
++.case-num,
++.case-meta,
++.label,
++.eyebrow {
++  font-family: var(--font-mono), monospace;
++  font-variant-numeric: tabular-nums;
++}
++.machine-label,
++.field-label,
++.field-notation,
++.field-note__index,
++.project-ledger__label,
+ .eyebrow {
+-  font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.18em;
+-  text-transform: uppercase; color: var(--accent); margin: 0 0 0.9rem;
+-  font-weight: 500;
+-}
+-.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+-.wrap { max-width: var(--maxw); margin-inline: auto; padding-inline: var(--margin); }
+-
+-/* ==========================================================================
+-   Masthead
+-   ========================================================================== */
+-.nav {
+-  position: sticky; top: 0; z-index: 40;
+-  background: color-mix(in srgb, var(--porcelain) 84%, transparent);
+-  backdrop-filter: saturate(120%) blur(7px);
++  font-size: 0.74rem;
++  line-height: 1.35;
++  letter-spacing: 0.1em;
++  text-transform: uppercase;
++}
++.field-label { color: var(--signal); margin-bottom: 0.8rem; }
++.field-notation { color: var(--trace); }
++.field-notation span { display: block; }
++
++/* 03 Publication grid */
++.publication-grid {
++  width: min(100%, var(--max-width));
++  margin-inline: auto;
++  padding-inline: var(--edge);
++  display: grid;
++  grid-template-columns: repeat(14, minmax(0, 1fr));
++  column-gap: clamp(0.75rem, 1.5vw, 1.5rem);
++}
++
++/* 04 Header */
++.site-header {
++  position: sticky;
++  top: 0;
++  z-index: 40;
++  background: var(--paper);
+   border-bottom: 1px solid var(--rule);
+ }
+-.nav-inner {
+-  max-width: var(--maxw); margin-inline: auto;
+-  padding: 0.85rem var(--margin);
+-  display: grid; grid-template-columns: 1fr auto 1fr;
+-  align-items: center; gap: 1rem;
+-}
+-.nav-mark {
+-  font-family: var(--font-mono); font-weight: 600; letter-spacing: 0.05em;
+-  font-size: 0.95rem; justify-self: start;
+-}
+-.nav-center {
+-  font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.3em;
+-  text-transform: uppercase; color: var(--muted); justify-self: center;
+-  white-space: nowrap;
++.site-header__inner {
++  width: min(100%, var(--max-width));
++  min-height: 3.5rem;
++  margin-inline: auto;
++  padding: 0.75rem var(--edge);
++  display: grid;
++  grid-template-columns: 1fr auto 1fr;
++  align-items: center;
++  gap: 1.25rem;
+ }
+-.nav-links {
+-  justify-self: end; display: flex; gap: 1.4rem;
+-  font-family: var(--font-mono); font-size: 0.76rem; letter-spacing: 0.1em;
+-  text-transform: uppercase;
++.site-header__mark {
++  justify-self: start;
++  font-family: var(--font-identity), sans-serif;
++  font-variation-settings: "wght" 650, "wdth" 100;
++  letter-spacing: 0.02em;
++}
++.site-header__nav { display: flex; align-items: center; gap: clamp(1rem, 2.5vw, 2.4rem); }
++.site-header__nav a,
++.site-header__external a {
++  position: relative;
++  font-size: 0.9rem;
++  padding-block: 0.15rem;
++}
++.site-header__nav a::after,
++.site-header__external a::after {
++  content: "";
++  position: absolute;
++  left: 0;
++  bottom: -0.25rem;
++  width: 0;
++  height: 2px;
++  background: var(--signal);
++  transition: width 160ms ease-out;
++}
++.site-header__nav a:hover::after,
++.site-header__nav a:focus-visible::after,
++.site-header__external a:hover::after,
++.site-header__external a:focus-visible::after { width: 1.5rem; }
++.site-header__external {
++  justify-self: end;
++  display: flex;
++  gap: 1.5rem;
++  color: var(--ink-soft);
++  font-size: 0.9rem;
++}
++.site-header__menu-button { display: none; justify-self: end; }
++.mobile-menu { display: none; }
++
++/* 05 Identity */
++.identity { padding-block: clamp(3.5rem, 7vw, 7rem) var(--section-space); }
++.identity__grid { row-gap: clamp(2.5rem, 6vw, 6rem); }
++.identity__notation { grid-column: 1 / 3; padding-top: 0.8rem; }
++.identity__position { grid-column: 3 / 11; }
++.identity__byline {
++  margin-bottom: 1rem;
++  color: var(--ink-soft);
++  font-size: 0.9rem;
++}
++.identity__statement {
++  max-width: 16ch;
++  margin-bottom: 2rem;
++  font-family: var(--font-editorial);
++  font-size: clamp(2.8rem, 7vw, 7rem);
++  line-height: 0.98;
++  letter-spacing: -0.035em;
++  text-wrap: balance;
++}
++.identity__statement em { color: var(--signal); font-weight: 400; }
++.identity__support { max-width: 66ch; color: var(--ink-soft); }
++.identity__actions,
++.system-feature__actions { display: flex; flex-wrap: wrap; gap: 1rem 1.75rem; margin-top: 2rem; }
++.text-action {
++  display: inline-flex;
++  align-items: center;
++  gap: 0.4rem;
++  border-bottom: 1px solid var(--rule-strong);
++  font-weight: 600;
++  padding-bottom: 0.2rem;
++}
++.text-action:hover { color: var(--signal); border-color: var(--signal); }
++.text-action--quiet { color: var(--ink-soft); font-weight: 450; }
++.identity__mark { grid-column: 2 / 15; }
++.identity-mark { margin: 0; overflow: visible; }
++.identity-mark__name {
++  position: relative;
++  display: grid;
++  grid-template-columns: 1.05fr 0.82fr 1fr 1.22fr;
++  align-items: baseline;
++  width: 100%;
++  color: var(--ink);
++  font-family: var(--font-identity), sans-serif;
++  font-size: clamp(5.5rem, 18vw, 17rem);
++  font-variation-settings: "wght" 820, "wdth" 150;
++  line-height: 0.72;
++  letter-spacing: -0.075em;
++}
++.identity-mark__name::before {
++  content: "";
++  position: absolute;
++  z-index: 0;
++  left: -2vw;
++  top: 51%;
++  width: 31%;
++  border-top: 1px solid var(--signal);
++}
++.identity-mark__letter { position: relative; z-index: 1; display: block; }
++.identity-mark__letter--r { margin-left: -0.12em; font-variation-settings: "wght" 780, "wdth" 125; }
++.identity-mark__letter--u { translate: 0 0.055em; }
++.identity-mark__letter--n { justify-self: end; font-variation-settings: "wght" 820, "wdth" 160; }
++.identity-mark__descriptor {
++  display: block;
++  margin-top: 1.2rem;
++  padding-left: 1.5rem;
++  border-left: 3px solid var(--signal);
++  font-family: var(--font-editorial);
++  font-size: clamp(1.4rem, 2.8vw, 2.6rem);
++  font-weight: 400;
++}
++
++/* 06 Field notation */
++.field-note { padding-block: var(--section-space); border-bottom: 1px solid var(--rule); }
++.field-note__grid { align-items: start; }
++.field-note__index { grid-column: 2 / 4; color: var(--signal); }
++.field-note blockquote { grid-column: 4 / 12; margin-bottom: 0; }
++.field-note blockquote p {
++  max-width: 30ch;
++  margin-bottom: 0.15em;
++  font-family: var(--font-editorial);
++  font-size: clamp(2rem, 4vw, 4rem);
++  line-height: 1.08;
++}
++.field-note blockquote p:last-child { margin-left: 1.7em; color: var(--ink-soft); }
++
++/* 07 Flagship system */
++.system-feature { padding-block: var(--section-space); background: var(--paper-deep); border-block: 1px solid var(--rule); }
++.system-feature__grid { row-gap: clamp(2rem, 4vw, 4rem); }
++.system-feature__id {
++  grid-column: 1 / 3;
++  align-self: start;
++  margin: 0;
++  color: var(--signal);
++  font-family: var(--font-identity), sans-serif;
++  font-size: clamp(2.4rem, 5vw, 5rem);
++  line-height: 0.85;
++  font-variation-settings: "wght" 560, "wdth" 70;
++}
++.system-feature__header { grid-column: 3 / 11; }
++.system-feature__header h2 {
++  margin-bottom: 0;
++  font-family: var(--font-editorial);
++  font-size: clamp(2.5rem, 6vw, 6rem);
++  line-height: 0.95;
++  letter-spacing: -0.035em;
++}
++.system-feature__header .machine-label { color: var(--trace); }
++.system-observation { grid-column: 3 / 9; }
++.system-observation > p:last-child {
++  max-width: 30ch;
++  font-family: var(--font-editorial);
++  font-size: clamp(1.55rem, 2.6vw, 2.4rem);
++  line-height: 1.25;
++  font-style: italic;
++}
++.system-trace { grid-column: 3 / 11; }
++.system-trace ol {
++  display: grid;
++  grid-template-columns: repeat(5, minmax(0, 1fr));
++  gap: 0;
++  margin: 0;
++  padding: 0;
++  list-style: none;
++  counter-reset: trace;
++}
++.system-trace li {
++  position: relative;
++  min-height: 6.8rem;
++  padding: 2.2rem 1rem 1rem 0;
++  border-top: 1px solid var(--trace);
++  font-family: var(--font-mono), monospace;
++  font-size: 0.76rem;
++  line-height: 1.35;
++}
++.system-trace li::before {
++  counter-increment: trace;
++  content: "0" counter(trace);
++  position: absolute;
++  top: 0.35rem;
++  left: 0;
++  color: var(--trace);
++}
++.system-trace li:not(:last-child)::after {
++  content: "→";
++  position: absolute;
++  top: -0.85rem;
++  right: 0.55rem;
++  padding-inline: 0.3rem;
++  background: var(--paper-deep);
++  color: var(--signal);
++}
++.system-decisions { grid-column: 3 / 10; }
++.system-decisions dl { margin-bottom: 0; }
++.system-decisions dl > div {
++  display: grid;
++  grid-template-columns: minmax(7rem, 0.35fr) 1fr;
++  gap: 1rem;
++  padding-block: 1rem;
++  border-top: 1px solid var(--rule);
++}
++.system-decisions dt { font-family: var(--font-mono), monospace; font-size: 0.78rem; }
++.system-decisions dd { margin: 0; color: var(--ink-soft); }
++.system-evidence { grid-column: 11 / 15; grid-row: 2 / span 4; }
++.evidence-frame { margin: 0; }
++.evidence-frame--image { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--rule-strong); }
++.evidence-frame--image img { object-fit: cover; }
++.evidence-frame--status {
++  display: flex;
++  min-height: 12rem;
++  flex-direction: column;
++  justify-content: flex-end;
++  align-items: flex-start;
++  gap: 0.2rem;
++  padding: 1.25rem;
++  border: 1px solid var(--rule-strong);
++}
++.evidence-frame--status strong {
++  font-family: var(--font-editorial);
++  font-size: clamp(1.6rem, 2.8vw, 2.5rem);
++  font-weight: 400;
++}
++.evidence-frame--status > span:last-child { color: var(--ink-soft); font-size: 0.9rem; }
++.system-feature__actions { grid-column: 3 / 11; margin-top: 0; }
++
++/* 08 Archive */
++.archive { padding-block: var(--section-space); }
++.archive__header { margin-bottom: clamp(2.5rem, 5vw, 5rem); }
++.archive__header > .field-notation { grid-column: 1 / 3; }
++.archive__header > div { grid-column: 3 / 11; }
++.archive__header h2,
++.working-position h2,
++.contact-sheet h2 {
++  margin-bottom: 0.6rem;
++  font-family: var(--font-editorial);
++  font-size: clamp(2rem, 4vw, 4rem);
++  line-height: 1.05;
++  font-weight: 400;
++}
++.archive__header p:last-child { color: var(--ink-soft); }
++.project-ledger {
++  width: min(100%, var(--max-width));
++  margin-inline: auto;
++  padding-inline: var(--edge);
++  border-top: 1px solid var(--rule-strong);
++}
++.project-ledger__row {
++  position: relative;
++  display: grid;
++  grid-template-columns: minmax(4rem, 1.2fr) minmax(0, 10fr) minmax(0, 2fr) 2rem;
++  gap: clamp(0.75rem, 2vw, 2rem);
++  align-items: center;
++  min-height: 7.5rem;
++  padding-block: 1.25rem;
++  border-bottom: 1px solid var(--rule);
+ }
+-.nav-links a { position: relative; padding-bottom: 2px; transition: color 0.2s var(--ease); }
+-.nav-links a::after {
+-  content: ""; position: absolute; left: 0; bottom: 0; height: 1.5px; width: 0;
+-  background: var(--accent); transition: width 0.28s var(--ease);
+-}
+-.nav-links a:hover { color: var(--accent); }
+-.nav-links a:hover::after { width: 100%; }
+-.nav-toggle {
+-  display: none; justify-self: end; background: none;
+-  border: 1px solid var(--rule-strong); border-radius: 1px;
+-  padding: 0.45rem 0.7rem; font-family: var(--font-mono); font-size: 0.72rem;
+-  letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg); cursor: pointer;
+-}
+-.menu { display: none; }
+-
+-/* ==========================================================================
+-   Hero — kinetic wordmark
+-   ========================================================================== */
+-.hero {
+-  position: relative; max-width: var(--maxw); margin-inline: auto;
+-  padding: clamp(2.5rem, 7vw, 6rem) var(--margin) clamp(2.5rem, 5vw, 4rem);
+-  min-height: min(94svh, 940px);
+-  display: grid; grid-template-rows: 1fr auto; gap: clamp(1.5rem, 4vw, 3rem);
+-}
+-
+-.wordmark {
+-  margin: 0; align-self: center;
+-  font-family: var(--font-display); font-weight: 800;
+-  line-height: 0.82; letter-spacing: -0.01em; color: var(--ink);
+-  text-transform: uppercase;
++.project-ledger__row::before {
++  content: "";
++  position: absolute;
++  inset: 0 auto 0 calc(-1 * var(--edge));
++  width: 3px;
++  background: var(--signal);
++  transform: scaleY(0);
++  transform-origin: center;
++  transition: transform 160ms ease-out;
++}
++.project-ledger__row:hover::before,
++.project-ledger__row:focus-visible::before { transform: scaleY(1); }
++.project-ledger__id {
++  font-family: var(--font-identity), sans-serif;
++  font-size: 1.45rem;
++  font-variation-settings: "wght" 560, "wdth" 72;
++}
++.project-ledger__content { display: grid; grid-template-columns: minmax(12rem, 1.5fr) minmax(16rem, 2fr) 1fr; gap: 1.25rem; align-items: baseline; }
++.project-ledger__name {
++  font-family: var(--font-editorial);
++  font-size: clamp(1.4rem, 2.3vw, 2.15rem);
++  line-height: 1.08;
++  transition: transform 160ms ease-out, color 160ms ease-out;
++}
++.project-ledger__row:hover .project-ledger__name,
++.project-ledger__row:focus-visible .project-ledger__name { transform: translateX(5px); color: var(--signal); }
++.project-ledger__stack { color: var(--ink-soft); font-size: 0.74rem; overflow-wrap: anywhere; }
++.project-ledger__label { display: block; margin-bottom: 0.2rem; color: var(--trace); }
++.project-ledger__category { color: var(--ink-soft); font-size: 0.74rem; }
++.project-ledger__image { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--rule); }
++.project-ledger__image img { object-fit: cover; }
++.project-ledger__arrow { justify-self: end; color: var(--trace); transition: color 160ms ease-out, transform 160ms ease-out; }
++.project-ledger__row:hover .project-ledger__arrow,
++.project-ledger__row:focus-visible .project-ledger__arrow { color: var(--signal); transform: translate(2px, -2px); }
++
++/* 09 Working method */
++.working-position { padding-block: var(--section-space); border-top: 1px solid var(--rule); }
++.working-position__grid { row-gap: 2.5rem; }
++.working-position__grid > .field-notation { grid-column: 1 / 3; }
++.working-position__narrative { grid-column: 3 / 10; }
++.working-position__narrative > p { max-width: 68ch; color: var(--ink-soft); }
++.method-ledger { grid-column: 3 / 15; margin: 0; border-top: 1px solid var(--rule-strong); }
++.method-ledger > div {
++  display: grid;
++  grid-template-columns: minmax(11rem, 0.85fr) 2fr;
++  gap: 1.5rem;
++  padding-block: 1rem;
++  border-bottom: 1px solid var(--rule);
+ }
+-.wordmark__line { display: block; will-change: font-variation-settings; }
+-.wordmark__line--1 {
+-  font-size: var(--step-mega);
+-  font-variation-settings: "wght" var(--wm-g1), "wdth" var(--wm-w1);
+-  transition: --wm-w1 1000ms var(--ease), --wm-g1 1000ms var(--ease);
+-}
+-.wordmark__line--2 {
+-  font-size: clamp(2.4rem, 9vw, 8.5rem);
+-  margin-top: -0.04em; padding-left: 0.02em; color: var(--copper);
+-  font-variation-settings: "wght" var(--wm-g2), "wdth" var(--wm-w2);
+-  transition: --wm-w2 1000ms var(--ease) 120ms, --wm-g2 1000ms var(--ease) 120ms;
+-}
+-.wordmark__line--2 i { font-style: italic; }
+-/* Pre-reveal state: condensed + light, then settles to the values above. */
+-.wordmark[data-ready="false"] .wordmark__line--1 { --wm-w1: 62; --wm-g1: 300; opacity: 0; }
+-.wordmark[data-ready="false"] .wordmark__line--2 { --wm-w2: 145; --wm-g2: 760; opacity: 0; }
+-.wordmark__line { opacity: 1; transition: opacity 700ms var(--ease), font-variation-settings 0s; }
+-.wordmark[data-ready="false"] .wordmark__line { opacity: 0; }
+-
+-.hero-foot {
+-  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+-  align-items: end; gap: clamp(1.2rem, 4vw, 3rem);
+-  border-top: 1px solid var(--rule); padding-top: 1.4rem;
+-}
+-.hero-lede { margin: 0; max-width: 46ch; color: var(--ink-soft); font-size: 1.06rem; line-height: 1.5; }
+-.hero-role {
+-  display: block; font-family: var(--font-mono); font-size: 0.74rem;
+-  letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+-  margin-bottom: 0.7rem;
+-}
+-.hero-actions { display: flex; align-items: center; gap: 1.3rem; flex-wrap: wrap; }
+-.hero-meta {
+-  display: flex; flex-direction: column; gap: 0.35rem; text-align: right;
+-  font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.06em;
+-  text-transform: uppercase; color: var(--muted); white-space: nowrap;
++.method-ledger dt { font-weight: 650; }
++.method-ledger dd { margin: 0; color: var(--ink-soft); }
++
++/* 10 Contact */
++.contact-sheet { padding-block: var(--section-space) 4rem; border-top: clamp(0.55rem, 1.4vw, 1.2rem) solid var(--signal); }
++.contact-sheet__grid { align-items: end; row-gap: 2rem; }
++.contact-sheet__grid > .field-notation { grid-column: 1 / 3; align-self: start; }
++.contact-sheet__main { grid-column: 3 / 11; }
++.contact-sheet__main nav { display: flex; flex-wrap: wrap; gap: 1rem 2rem; margin-top: 2rem; }
++.contact-sheet__main nav a { border-bottom: 1px solid var(--rule-strong); }
++.contact-sheet__main nav a:hover { color: var(--signal); border-color: var(--signal); }
++.contact-sheet__meta { grid-column: 11 / 15; margin: 0; color: var(--ink-soft); }
++.site-footer {
++  width: min(100%, var(--max-width));
++  margin-inline: auto;
++  padding: 1.25rem var(--edge) 2rem;
++  display: flex;
++  justify-content: space-between;
++  gap: 1rem;
++  border-top: 1px solid var(--rule);
++  color: var(--ink-soft);
++  font-family: var(--font-mono), monospace;
++  font-size: 0.72rem;
+ }
+-.hero-meta b { color: var(--fg); font-weight: 600; }
+ 
+-/* ---- Buttons / links ---------------------------------------------------- */
++/* 11 Shared actions and status */
+ .button {
+-  display: inline-flex; align-items: center; gap: 0.5rem;
+-  padding: 0.85rem 1.4rem; background: var(--ink); color: var(--porcelain);
+-  font-family: var(--font-mono); font-size: 0.82rem; letter-spacing: 0.08em;
+-  text-transform: uppercase; border: 1px solid var(--ink);
+-  transition: background 0.2s var(--ease), color 0.2s var(--ease), transform 0.15s var(--ease);
+-}
+-.button:hover { background: var(--vermilion); border-color: var(--vermilion); color: var(--porcelain); }
+-.button:active { transform: translateY(1px); }
+-.button--ghost { background: transparent; color: var(--fg); }
+-.button--ghost:hover { color: var(--porcelain); }
+-
+-.link {
+-  display: inline-flex; align-items: center; gap: 0.4rem;
+-  font-family: var(--font-mono); font-size: 0.82rem; letter-spacing: 0.06em;
+-  color: var(--fg);
+-  background-image: linear-gradient(var(--accent), var(--accent));
+-  background-repeat: no-repeat; background-position: 0 100%; background-size: 0% 1.5px;
+-  padding-bottom: 0.15em;
+-  transition: color 0.2s var(--ease), background-size 0.28s var(--ease);
+-}
+-.link:hover { color: var(--accent); background-size: 100% 1.5px; }
+-
+-/* ==========================================================================
+-   Section scaffold
+-   ========================================================================== */
+-.section { max-width: var(--maxw); margin-inline: auto; padding: clamp(4rem, 9vw, 8rem) var(--margin); }
+-.section-head {
+-  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+-  gap: clamp(1rem, 4vw, 3rem); align-items: end;
+-  border-bottom: 1px solid var(--rule-strong); padding-bottom: 1.3rem;
+-  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+-}
+-.section-head h2 {
+-  font-family: var(--font-display); font-weight: 800; font-size: var(--step-h2);
+-  line-height: 0.94; letter-spacing: -0.02em; margin: 0; text-transform: uppercase;
+-  font-variation-settings: "wght" 800, "wdth" 118;
+-}
+-.section-head p { margin: 0; color: var(--muted); max-width: 44ch; align-self: end; }
+-.section-index {
+-  font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.16em;
+-  text-transform: uppercase; color: var(--muted);
+-}
+-
+-/* ==========================================================================
+-   Featured work — three deliberately distinct spreads
+-   ========================================================================== */
+-.featured { display: flex; flex-direction: column; gap: clamp(5rem, 11vw, 10rem); }
+-
+-.spread { display: grid; grid-template-columns: repeat(12, 1fr); gap: clamp(1rem, 2.5vw, 2rem); }
+-.spread-num {
+-  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+-  font-size: 0.8rem; letter-spacing: 0.1em; color: var(--accent);
+-}
+-.spread-cat {
+-  font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.06em;
+-  text-transform: uppercase; color: var(--muted); margin: 0.3rem 0 0;
+-}
+-.spread-title {
+-  font-family: var(--font-display); font-weight: 800; line-height: 0.9;
+-  letter-spacing: -0.02em; margin: 0; text-transform: uppercase;
+-  font-variation-settings: "wght" 820, "wdth" 125;
+-}
+-.spread-title a { transition: color 0.2s var(--ease); }
+-.spread-title a:hover { color: var(--accent); }
+-.spread-problem { margin: 0; color: var(--ink-soft); font-size: 1.1rem; line-height: 1.5; max-width: 42ch; }
+-.spread-stack {
+-  display: flex; flex-wrap: wrap; gap: 0.5rem 0.9rem; margin: 0;
+-  font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.04em; color: var(--muted);
+-}
+-.spread-stack span::before { content: "▪ "; color: var(--accent); }
+-
+-/* Typographic media panel (used when a project has no verified screenshot). */
+-.spread-panel {
+-  position: relative; overflow: hidden; background: var(--carbon);
+-  color: var(--porcelain); border: 1px solid var(--ink);
+-  display: grid; align-content: space-between; padding: clamp(1.4rem, 3vw, 2.4rem);
+-  min-height: clamp(16rem, 34vw, 30rem);
+-}
+-.spread-panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+-.spread-panel-num {
+-  font-family: var(--font-display); font-weight: 800; line-height: 0.8;
+-  font-size: clamp(5rem, 16vw, 13rem); color: color-mix(in srgb, var(--porcelain) 92%, transparent);
+-  font-variation-settings: "wght" 850, "wdth" 60;
+-}
+-.spread-panel-tag {
+-  font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.14em;
+-  text-transform: uppercase; color: color-mix(in srgb, var(--porcelain) 66%, transparent);
+-  justify-self: start;
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  min-height: 2.75rem;
++  padding: 0.7rem 1rem;
++  border: 1px solid var(--ink);
++  background: var(--ink);
++  color: var(--paper);
++  cursor: pointer;
++}
++.button:hover { background: var(--signal); border-color: var(--signal); }
++.link { border-bottom: 1px solid var(--rule-strong); }
++.link:hover { color: var(--signal); border-color: var(--signal); }
++.status {
++  width: min(100% - 2rem, 48rem);
++  min-height: 100svh;
++  margin-inline: auto;
++  display: grid;
++  align-content: center;
++  justify-items: start;
++}
++.status h1 { font-family: var(--font-editorial); font-size: clamp(2.5rem, 8vw, 6rem); line-height: 0.95; }
++.status > p:not(.eyebrow) { max-width: 55ch; }
++
++/* 12 Existing case-study compatibility */
++.case { width: min(100%, var(--max-width)); margin-inline: auto; padding: 2rem var(--edge) var(--section-space); }
++.case-back { margin-bottom: clamp(3rem, 8vw, 7rem); }
++.case-header { display: grid; grid-template-columns: repeat(14, minmax(0, 1fr)); gap: 1rem; align-items: start; }
++.case-num { grid-column: 1 / 3; color: var(--signal); font-size: 0.78rem; }
++.case-title { grid-column: 3 / 13; margin-bottom: 1rem; font-family: var(--font-editorial); font-size: clamp(3rem, 8vw, 8rem); line-height: 0.9; font-weight: 400; overflow-wrap: anywhere; }
++.case-intro { grid-column: 3 / 10; max-width: 60ch; font-family: var(--font-editorial); font-size: clamp(1.25rem, 2.4vw, 2rem); }
++.case-meta { grid-column: 11 / 15; display: grid; gap: 0.45rem; font-size: 0.72rem; overflow-wrap: anywhere; }
++.case-meta span, .case-meta a { display: block; padding-block: 0.45rem; border-bottom: 1px solid var(--rule); }
++.case-meta b { color: var(--trace); font-weight: 500; }
++.case-poster { margin-block: clamp(3rem, 8vw, 7rem); border: 1px solid var(--rule); }
++.case-poster img { width: 100%; }
++.case-body { display: grid; grid-template-columns: 2fr 8fr 2fr; gap: clamp(1rem, 3vw, 3rem); }
++.case-toc { grid-column: 1; position: sticky; top: 5rem; align-self: start; display: grid; gap: 0.5rem; font-family: var(--font-mono), monospace; font-size: 0.72rem; }
++.case-toc a:hover { color: var(--signal); }
++.case-main { grid-column: 2; min-width: 0; }
++.case-section { padding-block: clamp(2rem, 5vw, 4rem); border-top: 1px solid var(--rule-strong); }
++.case-section h2 { font-family: var(--font-editorial); font-size: clamp(1.8rem, 3.5vw, 3.4rem); font-weight: 400; }
++.case-section > p { max-width: 70ch; }
++.feature-list, .decisions { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
++.feature-list li, .decisions li { display: grid; grid-template-columns: minmax(10rem, 0.7fr) 2fr; gap: 1.25rem; padding-block: 1rem; border-bottom: 1px solid var(--rule); }
++.feature-list span, .decisions span { color: var(--ink-soft); }
++.case-credits { color: var(--ink-soft); }
++.case-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-block: 2rem 5rem; }
++.case-next { border-top: 1px solid var(--rule-strong); }
++.case-next a { display: grid; gap: 0.5rem; padding-block: 2rem; }
++.case-next .label { color: var(--trace); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; }
++.case-next .name { font-family: var(--font-editorial); font-size: clamp(1.8rem, 4vw, 4rem); }
++.case-next a:hover .name { color: var(--signal); }
++
++/* 13 Responsive behavior */
++@media (max-width: 1100px) {
++  .publication-grid { grid-template-columns: repeat(8, minmax(0, 1fr)); }
++  .identity__notation, .archive__header > .field-notation, .working-position__grid > .field-notation, .contact-sheet__grid > .field-notation { grid-column: 1 / 2; }
++  .identity__position, .archive__header > div, .working-position__narrative, .contact-sheet__main { grid-column: 2 / 7; }
++  .identity__mark { grid-column: 1 / 9; }
++  .system-feature__id { grid-column: 1 / 2; }
++  .system-feature__header { grid-column: 2 / 7; }
++  .system-observation, .system-trace, .system-decisions, .system-feature__actions { grid-column: 2 / 7; }
++  .system-evidence { grid-column: 7 / 9; }
++  .field-note__index { grid-column: 1 / 2; }
++  .field-note blockquote { grid-column: 2 / 8; }
++  .method-ledger { grid-column: 2 / 9; }
++  .contact-sheet__meta { grid-column: 7 / 9; }
++  .project-ledger__content { grid-template-columns: minmax(11rem, 1.2fr) 1.8fr; }
++  .project-ledger__category { grid-column: 1 / -1; }
++  .case-header { grid-template-columns: repeat(8, minmax(0, 1fr)); }
++  .case-num { grid-column: 1 / 2; }
++  .case-title { grid-column: 2 / 9; }
++  .case-intro { grid-column: 2 / 7; }
++  .case-meta { grid-column: 7 / 9; }
+ }
+-.spread-panel::after {
+-  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+-  background: var(--accent);
+-}
+-
+-/* Spread 1 — architectural: title top, panel left, body right. */
+-.spread--1 .spread-head { grid-column: 1 / 13; margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+-.spread--1 .spread-title { font-size: clamp(2.6rem, 9vw, 8rem); }
+-.spread--1 .spread-panel { grid-column: 1 / 8; }
+-.spread--1 .spread-body { grid-column: 9 / 13; align-self: center; display: grid; gap: 1.3rem; }
+-
+-/* Spread 2 — dossier: body left, panel right offset, decision pull. */
+-.spread--2 .spread-body { grid-column: 1 / 6; align-self: center; display: grid; gap: 1.3rem; }
+-.spread--2 .spread-title { font-size: clamp(2.4rem, 6vw, 5.5rem); }
+-.spread--2 .spread-panel { grid-column: 7 / 13; min-height: clamp(18rem, 40vw, 34rem); }
+-.spread--2 .spread-pull {
+-  grid-column: 1 / 6; margin: 0; border-left: 3px solid var(--copper);
+-  padding-left: 1.2rem; color: var(--ink-soft); font-size: 1rem; line-height: 1.5;
+-}
+-
+-/* Spread 3 — system map: panel left tall, title + map right. */
+-.spread--3 .spread-panel { grid-column: 1 / 6; min-height: clamp(20rem, 44vw, 36rem); }
+-.spread--3 .spread-body { grid-column: 7 / 13; align-self: center; display: grid; gap: 1.3rem; }
+-.spread--3 .spread-title { font-size: clamp(2.4rem, 6vw, 5.5rem); }
+-.spread-map { list-style: none; margin: 0.4rem 0 0; padding: 0; display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+-.spread-map li { background: var(--bg); padding: 0.85rem 1rem; display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: baseline; }
+-.spread-map b { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+-.spread-map span { color: var(--ink-soft); font-size: 0.95rem; }
+-
+-/* ==========================================================================
+-   Project index — interactive catalogue
+-   ========================================================================== */
+-.index { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr); gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+-.idx-list { border-top: 1px solid var(--rule-strong); }
+-.idx-row {
+-  display: grid; grid-template-columns: 3rem minmax(0, 1fr) auto; align-items: baseline;
+-  gap: 1.2rem; padding: 1.2rem 0.3rem; border-bottom: 1px solid var(--rule);
+-  transition: padding-left 0.28s var(--ease), background 0.2s var(--ease);
+-}
+-.idx-row:hover, .idx-row:focus-visible { background: var(--surface); padding-left: 0.9rem; }
+-.idx-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.78rem; color: var(--accent); }
+-.idx-name {
+-  font-family: var(--font-display); font-weight: 700; font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+-  line-height: 1; letter-spacing: -0.01em; text-transform: uppercase;
+-  font-variation-settings: "wght" 680, "wdth" 100;
+-  transition: font-variation-settings 0.3s var(--ease), color 0.2s var(--ease);
+-}
+-.idx-row:hover .idx-name, .idx-row:focus-visible .idx-name {
+-  color: var(--accent); font-variation-settings: "wght" 760, "wdth" 128;
+-}
+-.idx-stack { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); margin-top: 0.35rem; letter-spacing: 0.02em; }
+-.idx-arrow { font-family: var(--font-mono); color: var(--muted); justify-self: end; transition: transform 0.25s var(--ease), color 0.2s var(--ease); }
+-.idx-row:hover .idx-arrow, .idx-row:focus-visible .idx-arrow { color: var(--accent); transform: translate(3px, -3px); }
+-
+-/* Preview pane (desktop). Anchored, never chases the cursor. */
+-.idx-preview {
+-  position: sticky; top: 6rem; aspect-ratio: 4 / 5; border: 1px solid var(--rule);
+-  background: var(--carbon); color: var(--porcelain); overflow: hidden;
+-  display: grid; align-content: space-between; padding: 1.4rem;
+-}
+-.idx-preview img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.4s var(--ease); }
+-.idx-preview img[data-active="true"] { opacity: 1; }
+-.idx-preview-big {
+-  font-family: var(--font-display); font-weight: 800; line-height: 0.86;
+-  font-size: clamp(2rem, 4vw, 3.4rem); text-transform: uppercase;
+-  font-variation-settings: "wght" 820, "wdth" 70; margin: 0;
+-  transition: font-variation-settings 0.35s var(--ease);
+-}
+-.idx-preview-meta { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: color-mix(in srgb, var(--porcelain) 66%, transparent); }
+-.idx-thumb { display: none; } /* inline thumb only on touch/no-JS */
+-
+-/* ==========================================================================
+-   Profile — manifesto + asymmetric capability map
+-   ========================================================================== */
+-.profile .wrap { padding-block: clamp(4rem, 9vw, 8rem); }
+-.profile-lead {
+-  font-family: var(--font-display); font-weight: 500; font-size: clamp(1.8rem, 4.4vw, 3.6rem);
+-  line-height: 1.06; letter-spacing: -0.02em; margin: 0.4rem 0 0; max-width: 20ch;
+-  font-variation-settings: "wght" 520, "wdth" 108; text-transform: none;
+-}
+-.profile-lead em { font-style: italic; color: var(--accent); }
+-.profile-body { margin: 1.6rem 0 0; max-width: var(--measure); color: var(--ink-soft); line-height: 1.65; }
+-.profile-body p + p { margin-top: 1rem; }
+-
+-.capmap { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 1px; margin-top: clamp(2.5rem, 5vw, 4rem); background: var(--rule); border: 1px solid var(--rule); }
+-.cap { background: var(--bg); padding: 1.5rem 1.4rem; }
+-.cap--primary { grid-row: span 2; background: var(--carbon); color: var(--porcelain); }
+-.cap h3 { font-family: var(--font-mono); font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 0 0 1rem; font-weight: 600; }
+-.cap ul { list-style: none; margin: 0; padding: 0; }
+-.cap li { padding: 0.4rem 0; font-size: 0.96rem; border-top: 1px solid var(--rule); }
+-.cap li:first-child { border-top: none; }
+-.cap--primary li { border-color: color-mix(in srgb, var(--porcelain) 12%, transparent); color: color-mix(in srgb, var(--porcelain) 86%, transparent); }
+-.cap--primary h3 { color: var(--lime); }
+-
+-.principle { margin-top: clamp(2.5rem, 5vw, 4rem); border-left: 3px solid var(--vermilion); padding-left: 1.4rem; }
+-.principle b { display: block; font-family: var(--font-display); font-size: clamp(1.6rem, 3.4vw, 2.6rem); font-weight: 600; line-height: 1.08; font-variation-settings: "wght" 600, "wdth" 110; }
+-.principle span { display: block; margin-top: 0.5rem; color: var(--ink-soft); font-size: 1.05rem; }
+-
+-.additional { list-style: none; margin: 1.5rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.6rem 0.8rem; }
+-.additional li { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.03em; color: var(--muted); border: 1px solid var(--rule); padding: 0.5rem 0.85rem; }
+-
+-/* ==========================================================================
+-   Contact finale — the one carbon inversion
+-   ========================================================================== */
+-.contact { background: var(--carbon); color: var(--porcelain); }
+-.contact .wrap { padding-block: clamp(5rem, 12vw, 11rem); }
+-.contact .eyebrow { color: var(--lime); }
+-.contact-huge {
+-  font-family: var(--font-display); font-weight: 800; font-size: var(--step-hero);
+-  line-height: 0.86; letter-spacing: -0.02em; margin: 0 0 1.6rem; text-transform: uppercase;
+-  font-variation-settings: "wght" 840, "wdth" 128;
+-}
+-.contact-huge em { font-style: italic; color: var(--accent); }
+-.contact-sub { max-width: 48ch; color: color-mix(in srgb, var(--porcelain) 78%, transparent); margin: 0 0 2.2rem; font-size: 1.1rem; line-height: 1.55; }
+-.contact-actions { display: flex; flex-wrap: wrap; gap: 1.4rem; align-items: center; }
+-.contact .button { background: var(--porcelain); color: var(--carbon); border-color: var(--porcelain); }
+-.contact .button:hover { background: var(--vermilion); border-color: var(--vermilion); color: var(--porcelain); }
+-.contact .link { color: var(--porcelain); }
+-.contact .link:hover { color: var(--lime); background-image: linear-gradient(var(--lime), var(--lime)); }
+-.contact-meta { margin-top: 2.6rem; font-family: var(--font-mono); font-size: 0.76rem; letter-spacing: 0.06em; color: color-mix(in srgb, var(--porcelain) 60%, transparent); display: flex; flex-wrap: wrap; gap: 0.4rem 1.6rem; }
+-
+-/* ==========================================================================
+-   Footer
+-   ========================================================================== */
+-footer { background: var(--carbon); border-top: 1px solid color-mix(in srgb, var(--porcelain) 12%, transparent); }
+-.foot-inner {
+-  max-width: var(--maxw); margin-inline: auto; padding: 2rem var(--margin);
+-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+-  gap: 1rem; font-family: var(--font-mono); font-size: 0.76rem; letter-spacing: 0.04em;
+-  color: color-mix(in srgb, var(--porcelain) 60%, transparent);
+-}
+-.foot-inner a:hover { color: var(--lime); }
+-
+-/* ==========================================================================
+-   Case-study dossier
+-   ========================================================================== */
+-.case { max-width: var(--maxw); margin-inline: auto; padding: clamp(2rem, 5vw, 4rem) var(--margin) clamp(4rem, 8vw, 7rem); }
+-.case-back { margin-bottom: clamp(2rem, 4vw, 3rem); }
+-.case-header { border-bottom: 1px solid var(--rule-strong); padding-bottom: clamp(2rem, 4vw, 3rem); }
+-.case-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: clamp(1rem, 2vw, 1.4rem); color: var(--accent); letter-spacing: 0.1em; }
+-.case-title {
+-  font-family: var(--font-display); font-weight: 800; font-size: clamp(2.8rem, 8vw, 7rem);
+-  line-height: 0.9; letter-spacing: -0.02em; margin: 0.4rem 0 1rem; text-transform: uppercase;
+-  font-variation-settings: "wght" 830, "wdth" 128;
+-}
+-.case-intro { font-size: 1.2rem; line-height: 1.5; color: var(--ink-soft); max-width: var(--measure); margin: 0 0 1.6rem; }
+-.case-meta { display: flex; flex-wrap: wrap; gap: 0.5rem 0.6rem; }
+-.case-meta span, .case-meta a {
+-  display: inline-flex; align-items: baseline; gap: 0.5rem; font-family: var(--font-mono);
+-  font-size: 0.76rem; letter-spacing: 0.03em; color: var(--ink-soft);
+-  border: 1px solid var(--rule); padding: 0.4rem 0.75rem;
+-}
+-.case-meta a { transition: border-color 0.2s var(--ease), color 0.2s var(--ease); }
+-.case-meta a:hover { color: var(--accent); border-color: var(--rule-strong); }
+-.case-meta b { color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+-
+-.case-poster { position: relative; aspect-ratio: 16 / 8; margin: clamp(2.5rem, 5vw, 4rem) 0; overflow: hidden; background: var(--surface); border: 1px solid var(--rule); }
+-.case-poster img { width: 100%; height: 100%; object-fit: cover; }
+-
+-/* Body: sticky contents rail + prose column. */
+-.case-body { display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); gap: clamp(1.5rem, 5vw, 4rem); align-items: start; margin-top: clamp(2.5rem, 5vw, 4rem); }
+-.case-toc { position: sticky; top: 6rem; display: grid; gap: 0.6rem; font-family: var(--font-mono); font-size: 0.76rem; }
+-.case-toc a { color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; padding: 0.2rem 0; transition: color 0.2s var(--ease); }
+-.case-toc a:hover { color: var(--accent); }
+-.case-main { min-width: 0; display: grid; gap: clamp(2.5rem, 5vw, 4rem); }
+-.case-section h2 { font-family: var(--font-display); font-weight: 700; font-size: var(--step-h3); letter-spacing: -0.01em; margin: 0 0 1.2rem; text-transform: uppercase; font-variation-settings: "wght" 700, "wdth" 112; }
+-.case-section > p { max-width: var(--measure); color: var(--ink-soft); line-height: 1.65; margin: 0; }
+-
+-.feature-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+-.feature-list li { background: var(--bg); padding: 1.2rem 1.3rem; line-height: 1.55; transition: background 0.2s var(--ease); }
+-.feature-list li:hover { background: var(--surface); }
+-.feature-list b { display: block; margin-bottom: 0.3rem; font-weight: 600; letter-spacing: -0.01em; }
+-.feature-list span { color: var(--ink-soft); font-size: 0.96rem; }
+-
+-.decisions { list-style: none; padding: 0; margin: 0; }
+-.decisions li { display: grid; grid-template-columns: minmax(9rem, 13rem) 1fr; gap: 1.5rem; padding: 1rem 0; border-top: 1px solid var(--rule); color: var(--ink-soft); line-height: 1.6; }
+-.decisions b { font-family: var(--font-mono); font-size: 0.74rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+-
+-.case-credits { font-family: var(--font-mono); font-size: 0.82rem; color: var(--muted); border-left: 3px solid var(--copper); padding-left: 1.2rem; }
+-.case-actions { display: flex; flex-wrap: wrap; gap: 1.2rem; align-items: center; padding-top: 1.6rem; border-top: 1px solid var(--rule-strong); }
+-.case-next a { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 1.4rem 0; border-top: 1px solid var(--rule); }
+-.case-next .label { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+-.case-next .name { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.6rem, 3.5vw, 2.6rem); text-transform: uppercase; font-variation-settings: "wght" 700, "wdth" 118; transition: color 0.2s var(--ease); }
+-.case-next a:hover .name { color: var(--accent); }
+-
+-/* ==========================================================================
+-   Status pages
+-   ========================================================================== */
+-.status { max-width: 900px; margin-inline: auto; padding: clamp(5rem, 14vw, 12rem) var(--margin); min-height: 70vh; display: grid; align-content: center; }
+-.status h1 { font-family: var(--font-display); font-weight: 800; font-size: var(--step-hero); line-height: 0.92; letter-spacing: -0.02em; margin: 0.4rem 0 1.2rem; text-transform: uppercase; font-variation-settings: "wght" 820, "wdth" 120; }
+-.status p { color: var(--ink-soft); max-width: 50ch; margin: 0 0 2rem; }
+-
+-/* ==========================================================================
+-   Motion — scroll reveals + route transitions, all reduced-motion aware
+-   ========================================================================== */
+-@view-transition { navigation: auto; }
+-
+-@media (prefers-reduced-motion: no-preference) {
+-  @supports (animation-timeline: view()) {
+-    .spread, .idx-row, .section-head, .capmap, .principle, .case-section {
+-      animation: reveal linear both;
+-      animation-timeline: view();
+-      animation-range: entry 0% entry 34%;
+-    }
+-    @keyframes reveal {
+-      from { opacity: 0; transform: translateY(24px); }
+-      to { opacity: 1; transform: none; }
+-    }
++
++@media (max-width: 700px) {
++  :root { --section-space: 4.5rem; }
++  html { scroll-behavior: auto; }
++  .publication-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 0.75rem; }
++  .site-header__inner { grid-template-columns: 1fr auto; }
++  .site-header__nav, .site-header__external { display: none; }
++  .site-header__menu-button { display: block; }
++  .mobile-menu {
++    position: fixed;
++    inset: 0;
++    z-index: 60;
++    display: block;
++    padding: var(--edge);
++    background: var(--paper);
++    transform: translateY(-105%);
++    visibility: hidden;
+   }
++  .mobile-menu:target { transform: none; visibility: visible; }
++  .mobile-menu__close { position: absolute; top: var(--edge); right: var(--edge); }
++  .mobile-menu nav { display: flex; flex-direction: column; gap: 1rem; margin-top: 4rem; }
++  .mobile-menu nav a { font-family: var(--font-editorial); font-size: 2.2rem; line-height: 1.1; }
++  .identity { padding-top: 2.5rem; }
++  .identity__notation, .archive__header > .field-notation, .working-position__grid > .field-notation, .contact-sheet__grid > .field-notation { grid-column: 1 / 5; display: flex; gap: 0.8rem; }
++  .identity__position, .archive__header > div, .working-position__narrative, .contact-sheet__main { grid-column: 1 / 5; }
++  .identity__byline {
++  margin-bottom: 1rem;
++  color: var(--ink-soft);
++  font-size: 0.9rem;
++}
++.identity__statement { font-size: clamp(2.7rem, 13vw, 4.4rem); }
++  .identity__support { font-size: 1rem; }
++  .identity__mark { grid-column: 1 / 5; }
++  .identity-mark__name { font-size: clamp(4.7rem, 23vw, 8rem); letter-spacing: -0.09em; }
++  .identity-mark__descriptor { font-size: 1.35rem; }
++  .system-feature__id, .system-feature__header, .system-observation, .system-trace, .system-decisions, .system-evidence, .system-feature__actions { grid-column: 1 / 5; grid-row: auto; }
++  .system-feature__id { font-size: 2.7rem; }
++  .system-trace ol { grid-template-columns: 1fr; }
++  .system-trace li { min-height: auto; padding: 0.9rem 0 0.9rem 3.2rem; border-top: 1px solid var(--rule); }
++  .system-trace li::before { top: 0.9rem; }
++  .system-trace li:not(:last-child)::after { content: "↓"; top: auto; right: auto; bottom: -0.75rem; left: 1.1rem; background: var(--paper-deep); }
++  .system-decisions dl > div { grid-template-columns: 1fr; gap: 0.3rem; }
++  .evidence-frame--status { min-height: 9rem; }
++  .field-note__index { grid-column: 1 / 5; }
++  .field-note blockquote { grid-column: 1 / 5; }
++  .field-note blockquote p { font-size: clamp(2rem, 10vw, 3.4rem); }
++  .field-note blockquote p:last-child { margin-left: 0.8em; }
++  .project-ledger__row { grid-template-columns: 3.5rem minmax(0, 1fr) 1.5rem; align-items: start; }
++  .project-ledger__content { grid-template-columns: 1fr; gap: 0.55rem; }
++  .project-ledger__image { grid-column: 2; width: min(8rem, 45vw); margin-top: 0.5rem; }
++  .project-ledger__arrow { grid-column: 3; grid-row: 1; }
++  .method-ledger { grid-column: 1 / 5; }
++  .method-ledger > div { grid-template-columns: 1fr; gap: 0.3rem; }
++  .contact-sheet__meta { grid-column: 1 / 5; }
++  .site-footer { flex-direction: column; }
++  .case { padding-top: 1.25rem; }
++  .case-header { grid-template-columns: repeat(4, minmax(0, 1fr)); }
++  .case-num, .case-title, .case-intro, .case-meta { grid-column: 1 / 5; }
++  .case-title { font-size: clamp(3rem, 17vw, 5.5rem); }
++  .case-body { grid-template-columns: 1fr; }
++  .case-toc { position: static; grid-column: 1; display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; }
++  .case-main { grid-column: 1; }
++  .feature-list li, .decisions li { grid-template-columns: 1fr; gap: 0.35rem; }
+ }
+ 
+ @media (prefers-reduced-motion: reduce) {
+-  :root { scroll-behavior: auto; }
+-  * { animation: none !important; transition-duration: 0.001ms !important; }
+-  .wordmark[data-ready="false"] .wordmark__line { opacity: 1; }
+-  .wordmark__line--1 { --wm-w1: 150; --wm-g1: 850; }
+-  .wordmark__line--2 { --wm-w2: 82; --wm-g2: 380; }
+-}
+-
+-/* ==========================================================================
+-   Responsive
+-   ========================================================================== */
+-@media (max-width: 1024px) {
+-  .section-head { grid-template-columns: 1fr; align-items: start; }
+-  .spread--1 .spread-panel,
+-  .spread--1 .spread-body,
+-  .spread--2 .spread-body,
+-  .spread--2 .spread-panel,
+-  .spread--2 .spread-pull,
+-  .spread--3 .spread-panel,
+-  .spread--3 .spread-body { grid-column: 1 / 13; }
+-  .spread { row-gap: 1.6rem; }
+-  .index { grid-template-columns: 1fr; }
+-  .idx-preview { display: none; }
+-  .idx-thumb { display: block; }
+-  .capmap { grid-template-columns: 1fr 1fr; }
+-  .cap--primary { grid-row: auto; grid-column: 1 / -1; }
+-  .case-body { grid-template-columns: 1fr; }
+-  .case-toc { position: static; display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; }
++  html { scroll-behavior: auto; }
++  *, *::before, *::after { transition-duration: 0.01ms !important; }
+ }
+ 
+-@media (max-width: 700px) {
+-  .nav-center, .nav-links { display: none; }
+-  .nav-toggle { display: inline-block; }
+-  .nav-inner { grid-template-columns: 1fr auto; }
+-
+-  .menu {
+-    display: block; position: fixed; inset: 0; z-index: 60;
+-    background: var(--carbon); color: var(--porcelain); padding: var(--margin);
+-    transform: translateY(-100%); transition: transform 0.35s var(--ease); overflow-y: auto;
+-  }
+-  .menu:target { transform: none; }
+-  .menu nav { display: flex; flex-direction: column; gap: 1.4rem; margin-top: 4rem; }
+-  .menu nav a { font-family: var(--font-display); font-size: 2.4rem; text-transform: uppercase; font-variation-settings: "wght" 760, "wdth" 120; }
+-  .menu nav a:hover { color: var(--vermilion); }
+-  .menu .close { position: absolute; top: var(--margin); right: var(--margin); font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--porcelain); border: 1px solid color-mix(in srgb, var(--porcelain) 30%, transparent); padding: 0.5rem 0.8rem; }
+-
+-  .hero { min-height: auto; }
+-  .hero-foot { grid-template-columns: 1fr; }
+-  .hero-meta { text-align: left; }
+-
+-  .capmap { grid-template-columns: 1fr; }
+-  .feature-list { grid-template-columns: 1fr; }
+-  .decisions li { grid-template-columns: 1fr; gap: 0.3rem; }
++@media (forced-colors: active) {
++  .identity-mark__name::before,
++  .project-ledger__row::before { background: CanvasText; }
++  .button { border: 1px solid ButtonText; }
+ }
+-
+-@media (min-width: 701px) { .menu { display: none !important; } }
+\ No newline at end of file
+diff -ruN a/app/layout.tsx b/app/layout.tsx
+--- a/app/layout.tsx	2026-07-18 11:53:11.547604735 +0000
++++ b/app/layout.tsx	2026-07-18 11:38:53.750071092 +0000
+@@ -3,25 +3,21 @@
+ import "./globals.css";
+ import { site } from "@/data/portfolio";
+ 
+-// Display face — a variable family that ranges from ultra-condensed to
+-// extra-expanded. The width (wdth) + weight (wght) axes are the site's
+-// signature typographic mechanism.
+-const display = Anybody({
++// Identity lettering only: SRUN and rare project identifiers.
++const identity = Anybody({
+   subsets: ["latin"],
+   style: ["normal", "italic"],
+   axes: ["wdth"],
+-  variable: "--font-display",
++  variable: "--font-identity",
+   display: "swap",
+ });
+ 
+-// Primary UI / body sans — controlled, neutral, high legibility.
+ const geist = Geist({
+   subsets: ["latin"],
+   variable: "--font-sans",
+   display: "swap",
+ });
+ 
+-// Technical metadata — labels, indices, stack lines only.
+ const plexMono = IBM_Plex_Mono({
+   subsets: ["latin"],
+   weight: ["400", "500", "600"],
+@@ -50,7 +46,7 @@
+ };
+ 
+ export const viewport: Viewport = {
+-  themeColor: "#e9e5db",
++  themeColor: "#ece8df",
+   colorScheme: "light",
+ };
+ 
+@@ -62,7 +58,7 @@
+   return (
+     <html
+       lang="en"
+-      className={`${display.variable} ${geist.variable} ${plexMono.variable}`}
++      className={`${identity.variable} ${geist.variable} ${plexMono.variable}`}
+     >
+       <body>
+         <a className="skip" href="#main">
+@@ -72,4 +68,4 @@
+       </body>
+     </html>
+   );
+-}
+\ No newline at end of file
++}
+diff -ruN a/app/page.tsx b/app/page.tsx
+--- a/app/page.tsx	2026-07-18 11:53:11.551604742 +0000
++++ b/app/page.tsx	2026-07-18 11:51:47.839428239 +0000
+@@ -1,254 +1,240 @@
++import Image from "next/image";
+ import Link from "next/link";
++import IdentityMark from "@/components/identity-mark";
++import ProjectIndex from "@/components/project-index";
+ import {
+-  additionalWork,
+   bio,
+   capabilityGroups,
+-  featuredProjects,
+-  indexProjects,
+   principle,
+   projects,
+   site,
+ } from "@/data/portfolio";
+-import KineticWordmark from "@/components/kinetic-wordmark";
+-import ProjectIndex from "@/components/project-index";
+-
+-const mailtoHref = "mailto:" + site.email;
+ 
+-/* A typographic media panel: shows a verified screenshot when one exists,
+-   otherwise a strong number/category panel — never a striped placeholder. */
+-function Panel({ num, tag, image, alt }: { num: string; tag: string; image?: string; alt?: string }) {
+-  return (
+-    <div className="spread-panel">
+-      {image ? (
+-        <img src={image} alt={alt ?? ""} loading="lazy" width={1200} height={900} />
+-      ) : (
+-        <>
+-          <span className="spread-panel-num" aria-hidden="true">{num}</span>
+-          <span className="spread-panel-tag">{tag}</span>
+-        </>
+-      )}
+-    </div>
+-  );
+-}
++const mailtoHref = `mailto:${site.email}`;
+ 
+ export default function Home() {
+-  const [p1, p2, p3] = featuredProjects;
+-  const indexStart = featuredProjects.length + 1;
++  const eggscan = projects.find((project) => project.slug === "eggscan");
++  const archiveProjects = projects.filter((project) => project.slug !== "eggscan");
++
++  if (!eggscan) return null;
++
++  const hasRepository = Boolean(eggscan.direct);
++  const hasLiveBuild = Boolean(eggscan.evidence.live);
+ 
+   return (
+     <>
+-      {/* ---------- Masthead ---------- */}
+-      <header className="nav">
+-        <div className="nav-inner">
+-          <a href="#top" className="nav-mark">SRUN</a>
+-          <span className="nav-center">Systems in Motion</span>
+-          <nav className="nav-links" aria-label="Primary">
++      <header className="site-header">
++        <div className="site-header__inner">
++          <a className="site-header__mark" href="#top" aria-label="Back to top">
++            SRUN—26
++          </a>
++          <nav className="site-header__nav" aria-label="Primary navigation">
+             <a href="#work">Work</a>
+-            <a href="#index">Index</a>
++            <a href="#notes">Notes</a>
+             <a href="#profile">Profile</a>
+-            <a href="#contact">Contact</a>
+-            <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+           </nav>
+-          <a className="nav-toggle" href="#menu" aria-label="Open menu">Menu</a>
++          <div className="site-header__external">
++            <span>{site.location.split(",")[0]}</span>
++            <a href={site.github} target="_blank" rel="noopener noreferrer">
++              GitHub <span aria-hidden="true">↗</span>
++            </a>
++          </div>
++          <a className="site-header__menu-button" href="#menu" aria-label="Open menu">
++            Menu
++          </a>
+         </div>
+       </header>
+ 
+-      {/* ---------- Mobile menu (:target, no JS) ---------- */}
+-      <div className="menu" id="menu">
+-        <a className="close" href="#top" aria-label="Close menu">Close</a>
+-        <nav aria-label="Mobile">
++      <div className="mobile-menu" id="menu">
++        <a className="mobile-menu__close" href="#top" aria-label="Close menu">
++          Close
++        </a>
++        <nav aria-label="Mobile navigation">
+           <a href="#work">Work</a>
+-          <a href="#index">Index</a>
++          <a href="#notes">Notes</a>
+           <a href="#profile">Profile</a>
+           <a href="#contact">Contact</a>
+-          <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a>
++          <a href={site.github} target="_blank" rel="noopener noreferrer">
++            GitHub ↗
++          </a>
+         </nav>
+       </div>
+ 
+       <main id="main">
+-        {/* ---------- Hero ---------- */}
+-        <section id="top" className="hero" aria-label="Introduction">
+-          <KineticWordmark line1="SRUN" line2="Sochettra" />
+-
+-          <div className="hero-foot">
+-            <p className="hero-lede">
+-              <span className="hero-role">Full-stack developer · IT student · Phnom Penh</span>
+-              Backend systems, modern web applications, AI-powered developer
+-              tools, and experimental software — carried from schema and
+-              contracts through to readable, accessible interfaces.
++        <section id="top" className="identity" aria-labelledby="identity-position">
++          <div className="publication-grid identity__grid">
++            <p className="field-notation identity__notation">
++              <span>Field notes</span>
++              <span>Software systems</span>
++              <span>2026</span>
+             </p>
+-            <div className="hero-meta" aria-hidden="true">
+-              <span>Java / Spring / <b>PostgreSQL</b></span>
+-              <span>React / TypeScript</span>
+-              <span>{site.location}</span>
++
++            <div className="identity__position">
++              <p className="identity__byline">{site.name} / {site.title}</p>
++              <p id="identity-position" className="identity__statement">
++                I build software<br />
++                <em>from the failure state backward.</em>
++              </p>
++              <p className="identity__support">
++                {site.title} in {site.location}, focused on backend systems,
++                modern web applications, AI-powered tools, and experimental software.
++              </p>
++              <div className="identity__actions">
++                <a className="text-action" href="#work">View selected work</a>
++                <a className="text-action" href={site.github} target="_blank" rel="noopener noreferrer">
++                  GitHub <span aria-hidden="true">↗</span>
++                </a>
++              </div>
+             </div>
+-          </div>
+ 
+-          <div className="hero-actions">
+-            <a className="button" href="#work">Selected work</a>
+-            <a className="link" href={site.github} target="_blank" rel="noopener noreferrer">
+-              GitHub <span aria-hidden="true">&#8599;</span>
+-            </a>
++            <IdentityMark className="identity__mark" />
+           </div>
+         </section>
+ 
+-        {/* ---------- Featured work ---------- */}
+-        <section id="work" className="section" aria-labelledby="work-heading">
+-          <div className="section-head">
+-            <h2 id="work-heading">Selected systems</h2>
+-            <p>Three systems carried from problem to running software. The full index sits below.</p>
+-          </div>
++        <section id="work" className="system-feature" aria-labelledby="eggscan-title">
++          <div className="publication-grid system-feature__grid">
++            <p className="system-feature__id">P–01</p>
++
++            <header className="system-feature__header">
++              <p className="machine-label">Flagship system / {eggscan.category}</p>
++              <h2 id="eggscan-title">{eggscan.name}</h2>
++            </header>
++
++            <div className="system-observation">
++              <p className="field-label">Observation</p>
++              <p>{eggscan.problem ?? eggscan.summary}</p>
++            </div>
+ 
+-          <div className="featured">
+-            {/* Spread 1 — architectural */}
+-            {p1 && (
+-              <article className="spread spread--1">
+-                <div className="spread-head">
+-                  <span className="spread-num">01 — Featured</span>
+-                  <h3 className="spread-title"><Link href={`/projects/${p1.slug}`}>{p1.name}</Link></h3>
+-                  <p className="spread-cat">{p1.category}</p>
+-                </div>
+-                <Link href={`/projects/${p1.slug}`} aria-label={`Open ${p1.name} case study`} style={{ gridColumn: "1 / 8" }}>
+-                  <Panel num="01" tag={p1.category} image={p1.evidence.image} alt={p1.evidence.imageAlt} />
+-                </Link>
+-                <div className="spread-body">
+-                  <p className="spread-problem">{p1.problem ?? p1.summary}</p>
+-                  <div className="spread-stack">{p1.stack.map((s) => <span key={s}>{s}</span>)}</div>
+-                  <Link className="link" href={`/projects/${p1.slug}`}>
+-                    Read the dossier <span aria-hidden="true">&#8594;</span>
+-                  </Link>
+-                </div>
+-              </article>
+-            )}
++            <div className="system-trace" aria-labelledby="eggscan-system-label">
++              <p id="eggscan-system-label" className="field-label">System</p>
++              <ol>
++                <li>GitHub profile</li>
++                <li>GraphQL extraction</li>
++                <li>Spring service</li>
++                <li>Groq audit</li>
++                <li>Readable verdict</li>
++              </ol>
++            </div>
+ 
+-            {/* Spread 2 — dossier */}
+-            {p2 && (
+-              <article className="spread spread--2">
+-                <div className="spread-body">
+-                  <span className="spread-num">02 — Featured</span>
+-                  <h3 className="spread-title"><Link href={`/projects/${p2.slug}`}>{p2.name}</Link></h3>
+-                  <p className="spread-cat">{p2.category}</p>
+-                  <p className="spread-problem">{p2.problem ?? p2.summary}</p>
+-                  <div className="spread-stack">{p2.stack.map((s) => <span key={s}>{s}</span>)}</div>
+-                  <Link className="link" href={`/projects/${p2.slug}`}>
+-                    Read the dossier <span aria-hidden="true">&#8594;</span>
+-                  </Link>
+-                </div>
+-                <Link href={`/projects/${p2.slug}`} aria-label={`Open ${p2.name} case study`} style={{ gridColumn: "7 / 13" }}>
+-                  <Panel num="02" tag={p2.category} image={p2.evidence.image} alt={p2.evidence.imageAlt} />
+-                </Link>
+-                {p2.evidence.decisions?.[0] && (
+-                  <p className="spread-pull">
+-                    <b>{p2.evidence.decisions[0].label}.</b> {p2.evidence.decisions[0].value}
+-                  </p>
+-                )}
+-              </article>
+-            )}
+-
+-            {/* Spread 3 — system map */}
+-            {p3 && (
+-              <article className="spread spread--3">
+-                <Link href={`/projects/${p3.slug}`} aria-label={`Open ${p3.name} case study`} style={{ gridColumn: "1 / 6" }}>
+-                  <Panel num="03" tag={p3.category} image={p3.evidence.image} alt={p3.evidence.imageAlt} />
+-                </Link>
+-                <div className="spread-body">
+-                  <span className="spread-num">03 — Featured</span>
+-                  <h3 className="spread-title"><Link href={`/projects/${p3.slug}`}>{p3.name}</Link></h3>
+-                  <p className="spread-cat">{p3.category}</p>
+-                  <p className="spread-problem">{p3.problem ?? p3.summary}</p>
+-                  {p3.evidence.decisions && p3.evidence.decisions.length > 0 && (
+-                    <ul className="spread-map">
+-                      {p3.evidence.decisions.slice(0, 4).map((d) => (
+-                        <li key={d.label}><b>{d.label}</b><span>{d.value}</span></li>
+-                      ))}
+-                    </ul>
+-                  )}
+-                  <Link className="link" href={`/projects/${p3.slug}`}>
+-                    Read the dossier <span aria-hidden="true">&#8594;</span>
+-                  </Link>
++            <div className="system-decisions">
++              <p className="field-label">Decision</p>
++              <dl>
++                {eggscan.evidence.decisions?.slice(0, 2).map((decision) => (
++                  <div key={decision.label}>
++                    <dt>{decision.label}</dt>
++                    <dd>{decision.value}</dd>
++                  </div>
++                ))}
++              </dl>
++            </div>
++
++            <div className="system-evidence">
++              <p className="field-label">Evidence</p>
++              {eggscan.evidence.image ? (
++                <figure className="evidence-frame evidence-frame--image">
++                  <Image
++                    src={eggscan.evidence.image}
++                    alt={eggscan.evidence.imageAlt ?? `${eggscan.name} project evidence`}
++                    fill
++                    priority
++                    sizes="(max-width: 900px) 100vw, 30vw"
++                  />
++                </figure>
++              ) : (
++                <div className="evidence-frame evidence-frame--status">
++                  <span className="machine-label">Visual evidence</span>
++                  <strong>Not published</strong>
++                  <span>
++                    {[hasRepository && "Repository", hasLiveBuild && "live build"]
++                      .filter(Boolean)
++                      .join(" and ")} available
++                  </span>
+                 </div>
+-              </article>
+-            )}
++              )}
++            </div>
++
++            <div className="system-feature__actions">
++              <Link className="text-action" href={`/projects/${eggscan.slug}`}>
++                Open case study
++              </Link>
++              {eggscan.evidence.live ? (
++                <a className="text-action" href={eggscan.evidence.live} target="_blank" rel="noopener noreferrer">
++                  Open live <span aria-hidden="true">↗</span>
++                </a>
++              ) : null}
++              {eggscan.direct ? (
++                <a className="text-action text-action--quiet" href={eggscan.direct} target="_blank" rel="noopener noreferrer">
++                  Source <span aria-hidden="true">↗</span>
++                </a>
++              ) : null}
++            </div>
+           </div>
+         </section>
+ 
+-        {/* ---------- Project index ---------- */}
+-        <section id="index" className="section" aria-labelledby="index-heading">
+-          <div className="section-head">
+-            <h2 id="index-heading">Project index</h2>
+-            <p><span className="section-index">{String(projects.length).padStart(2, "0")} projects on record</span></p>
++        <section id="notes" className="field-note" aria-labelledby="field-note-001">
++          <div className="publication-grid field-note__grid">
++            <p className="field-note__index">Note / 001</p>
++            <h2 id="field-note-001" className="sr-only">Working principle</h2>
++            <blockquote>
++              <p><em>{principle.lead}</em></p>
++              <p>{principle.detail}</p>
++            </blockquote>
+           </div>
+-          <ProjectIndex projects={indexProjects} startNumber={indexStart} />
+         </section>
+ 
+-        {/* ---------- Profile ---------- */}
+-        <section id="profile" className="section profile" aria-labelledby="profile-heading">
+-          <div className="wrap">
+-            <p className="eyebrow">Profile</p>
+-            <h2 id="profile-heading" className="profile-lead">
+-              I build from the <em>real workflow</em> — schema, contracts, and failure states first.
+-            </h2>
+-            <div className="profile-body">
+-              {bio.map((para) => <p key={para.slice(0, 24)}>{para}</p>)}
+-            </div>
+-
+-            <div className="capmap">
+-              {capabilityGroups.map((g, i) => (
+-                <div className={`cap${i === 0 ? " cap--primary" : ""}`} key={g.name}>
+-                  <h3>{g.name}</h3>
+-                  <ul>{g.items.map((x) => <li key={x}>{x}</li>)}</ul>
+-                </div>
+-              ))}
++        <section id="index" className="archive" aria-labelledby="archive-title">
++          <div className="archive__header publication-grid">
++            <p className="field-notation">Archive</p>
++            <div>
++              <h2 id="archive-title">Systems on record</h2>
++              <p>Verified project facts, stacks, and source routes.</p>
+             </div>
++          </div>
++          <ProjectIndex projects={archiveProjects} startNumber={2} />
++        </section>
+ 
+-            <div className="principle">
+-              <b>{principle.lead}</b>
+-              <span>{principle.detail}</span>
++        <section id="profile" className="working-position" aria-labelledby="profile-title">
++          <div className="publication-grid working-position__grid">
++            <p className="field-notation">Working position</p>
++            <div className="working-position__narrative">
++              <h2 id="profile-title">{site.title}</h2>
++              {bio.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+             </div>
+-
+-            <p className="eyebrow" style={{ marginTop: "3rem" }}>Other experiments</p>
+-            <ul className="additional">
+-              {additionalWork.map((w) => <li key={w}>{w}</li>)}
+-            </ul>
++            <dl className="method-ledger">
++              {capabilityGroups.map((group) => (
++                <div key={group.name}>
++                  <dt>{group.name}</dt>
++                  <dd>{group.items.join(", ")}</dd>
++                </div>
++              ))}
++            </dl>
+           </div>
+         </section>
+       </main>
+ 
+-      {/* ---------- Contact finale ---------- */}
+-      <section id="contact" className="contact" aria-labelledby="contact-heading">
+-        <div className="wrap">
+-          <p className="eyebrow">Start a conversation</p>
+-          <h2 id="contact-heading" className="contact-huge">
+-            Build something<br />that <em>holds.</em>
+-          </h2>
+-          <p className="contact-sub">
+-            Open to internships, junior developer opportunities, technical
+-            collaborations, and ambitious student projects.
++      <section id="contact" className="contact-sheet" aria-labelledby="contact-title">
++        <div className="publication-grid contact-sheet__grid">
++          <p className="field-notation">Contact</p>
++          <div className="contact-sheet__main">
++            <h2 id="contact-title">Have a system worth building?</h2>
++            <nav aria-label="Contact links">
++              <a href={mailtoHref}>Email</a>
++              <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
++              <a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
++            </nav>
++          </div>
++          <p className="contact-sheet__meta">
++            {site.location}<br />
++            Open to internships and junior opportunities.
+           </p>
+-          <div className="contact-actions">
+-            <a className="button" href={mailtoHref}>Email me</a>
+-            <a className="link" href={site.github} target="_blank" rel="noopener noreferrer">
+-              GitHub <span aria-hidden="true">&#8599;</span>
+-            </a>
+-            <a className="link" href={site.linkedin} target="_blank" rel="noopener noreferrer">
+-              LinkedIn <span aria-hidden="true">&#8599;</span>
+-            </a>
+-          </div>
+-          <div className="contact-meta">
+-            <span>{site.location}</span>
+-            <span>{site.email}</span>
+-            <span>Available for 2026</span>
+-          </div>
+         </div>
+       </section>
+ 
+-      <footer>
+-        <div className="foot-inner">
+-          <span>{site.identity}</span>
+-          <span>{site.location}</span>
+-          <a href="#top">Back to top &#8593;</a>
+-        </div>
++      <footer className="site-footer">
++        <span>{site.name}</span>
++        <span>Systems Field Notes / 2026</span>
++        <a href="#top">Back to top ↑</a>
+       </footer>
+     </>
+   );
+-}
+\ No newline at end of file
++}
+diff -ruN a/components/identity-mark.tsx b/components/identity-mark.tsx
+--- a/components/identity-mark.tsx	1970-01-01 00:00:00.000000000 +0000
++++ b/components/identity-mark.tsx	2026-07-18 11:38:53.750071092 +0000
+@@ -0,0 +1,22 @@
++type IdentityMarkProps = {
++  className?: string;
++};
++
++export default function IdentityMark({ className = "" }: IdentityMarkProps) {
++  return (
++    <h1
++      className={`identity-mark ${className}`.trim()}
++      aria-label="Srun Sochettra — Systems Field Notes"
++    >
++      <span className="identity-mark__name" aria-hidden="true">
++        <span className="identity-mark__letter identity-mark__letter--s">S</span>
++        <span className="identity-mark__letter identity-mark__letter--r">R</span>
++        <span className="identity-mark__letter identity-mark__letter--u">U</span>
++        <span className="identity-mark__letter identity-mark__letter--n">N</span>
++      </span>
++      <span className="identity-mark__descriptor" aria-hidden="true">
++        Systems Field Notes
++      </span>
++    </h1>
++  );
++}
+diff -ruN a/components/kinetic-wordmark.tsx b/components/kinetic-wordmark.tsx
+--- a/components/kinetic-wordmark.tsx	2026-07-18 11:53:11.547604735 +0000
++++ b/components/kinetic-wordmark.tsx	1970-01-01 00:00:00.000000000 +0000
+@@ -1,81 +0,0 @@
+-"use client";
+-
+-import { useEffect, useRef } from "react";
+-
+-/* --------------------------------------------------------------------------
+- * KineticWordmark
+- * ---------------------------------------------------------------------------
+- * The hero name is the primary visual. On mount it "typesets" itself:
+- * line 1 settles from condensed/light to expanded/heavy, line 2 does the
+- * inverse. On pointer-fine devices the top line's width follows the cursor
+- * within a tiny range, so the letters feel like a system under light load.
+- *
+- * - No layout shift: geometry is fixed; only the variable axes animate.
+- * - Reduced-motion: CSS already pins the final axes; JS skips pointer work.
+- * - No scroll listeners, no React state, no re-render per frame.
+- * ------------------------------------------------------------------------- */
+-
+-type Props = {
+-  /** First line — expands and thickens (e.g. "SRUN"). */
+-  line1: string;
+-  /** Second line — condenses and lightens (e.g. "Sochettra"). */
+-  line2: string;
+-};
+-
+-export default function KineticWordmark({ line1, line2 }: Props) {
+-  const rootRef = useRef<HTMLHeadingElement>(null);
+-  const l1Ref = useRef<HTMLSpanElement>(null);
+-
+-  useEffect(() => {
+-    const root = rootRef.current;
+-    const l1 = l1Ref.current;
+-    if (!root) return;
+-
+-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+-    const fine = window.matchMedia("(pointer: fine)").matches;
+-
+-    // Reveal on the next frame so the transition from the pre-ready state fires.
+-    const raf = window.requestAnimationFrame(() => {
+-      root.dataset.ready = "true";
+-    });
+-
+-    if (reduce || !fine || !l1) {
+-      return () => window.cancelAnimationFrame(raf);
+-    }
+-
+-    // Pointer-driven width on line 1 only. Range kept deliberately small
+-    // (135–165) so it reads as "alive", never distracting.
+-    let ticking = false;
+-    const onMove = (e: PointerEvent) => {
+-      if (ticking) return;
+-      ticking = true;
+-      window.requestAnimationFrame(() => {
+-        const ratio = Math.min(Math.max(e.clientX / window.innerWidth, 0), 1);
+-        const width = 135 + ratio * 30;
+-        l1.style.setProperty("--wm-w1", width.toFixed(1));
+-        ticking = false;
+-      });
+-    };
+-    // Only start responding after the intro settle has begun.
+-    const start = window.setTimeout(() => {
+-      window.addEventListener("pointermove", onMove, { passive: true });
+-    }, 1100);
+-
+-    return () => {
+-      window.cancelAnimationFrame(raf);
+-      window.clearTimeout(start);
+-      window.removeEventListener("pointermove", onMove);
+-    };
+-  }, []);
+-
+-  return (
+-    <h1 ref={rootRef} className="wordmark" data-ready="false">
+-      <span ref={l1Ref} className="wordmark__line wordmark__line--1">
+-        {line1}
+-      </span>
+-      <span className="wordmark__line wordmark__line--2">
+-        <i>{line2}</i>
+-      </span>
+-    </h1>
+-  );
+-}
+\ No newline at end of file
+diff -ruN a/components/project-index.tsx b/components/project-index.tsx
+--- a/components/project-index.tsx	2026-07-18 11:53:11.547604735 +0000
++++ b/components/project-index.tsx	2026-07-18 11:38:53.750071092 +0000
+@@ -1,87 +1,49 @@
+-"use client";
+-
+-import { useRef, useState } from "react";
+ import Link from "next/link";
++import Image from "next/image";
+ import type { Project } from "@/data/portfolio";
+ 
+-/* --------------------------------------------------------------------------
+- * ProjectIndex
+- * ---------------------------------------------------------------------------
+- * A catalogue, not a table. Every row is a real <Link> so it works with no
+- * JS and with the keyboard. On wide screens, hovering/focusing a row updates
+- * an anchored preview pane (it never chases the cursor). On touch/narrow
+- * screens the preview is hidden and each row shows an inline thumbnail
+- * (rendered only when a verified screenshot exists — no placeholders).
+- * ------------------------------------------------------------------------- */
+-
+ type Props = {
+   projects: readonly Project[];
+-  /** Offset so numbering continues after the featured spreads. */
+   startNumber: number;
+ };
+ 
+ export default function ProjectIndex({ projects, startNumber }: Props) {
+-  const [active, setActive] = useState(0);
+-  const regionRef = useRef<HTMLDivElement>(null);
+-
+-  const current = projects[active];
+-
+   return (
+-    <div className="index">
+-      <div className="idx-list" role="list">
+-        {projects.map((p, i) => {
+-          const href = "/projects/" + p.slug;
+-          const num = String(startNumber + i).padStart(2, "0");
+-          const img = p.evidence.image;
+-          return (
+-            <Link
+-              key={p.slug}
+-              href={href}
+-              className="idx-row"
+-              role="listitem"
+-              onMouseEnter={() => setActive(i)}
+-              onFocus={() => setActive(i)}
+-            >
+-              <span className="idx-num">{num}</span>
+-              <span>
+-                <span className="idx-name">{p.name}</span>
+-                <span className="idx-stack">{p.stack.join(" · ")}</span>
+-                {img ? (
+-                  <img
+-                    className="idx-thumb"
+-                    src={img}
+-                    alt={p.evidence.imageAlt ?? `${p.name} interface`}
+-                    loading="lazy"
+-                    width={640}
+-                    height={400}
+-                  />
+-                ) : null}
++    <div className="project-ledger" role="list">
++      {projects.map((project, index) => {
++        const number = String(startNumber + index).padStart(2, "0");
++        const image = project.evidence.image;
++
++        return (
++          <Link
++            className="project-ledger__row"
++            href={`/projects/${project.slug}`}
++            key={project.slug}
++            role="listitem"
++          >
++            <span className="project-ledger__id">P–{number}</span>
++            <span className="project-ledger__content">
++              <span className="project-ledger__name">{project.name}</span>
++              <span className="project-ledger__stack">
++                <span className="project-ledger__label">Stack</span>
++                {project.stack.join(" → ")}
+               </span>
+-              <span className="idx-arrow" aria-hidden="true">
+-                &#8599;
++              <span className="project-ledger__category">{project.category}</span>
++            </span>
++            {image ? (
++              <span className="project-ledger__image">
++                <Image
++                  src={image}
++                  alt={project.evidence.imageAlt ?? `${project.name} project evidence`}
++                  fill
++                  sizes="(max-width: 700px) 28vw, 12vw"
++                />
+               </span>
+-            </Link>
+-          );
+-        })}
+-      </div>
+-
+-      <div className="idx-preview" ref={regionRef} aria-hidden="true">
+-        {projects.map((p, i) =>
+-          p.evidence.image ? (
+-            <img
+-              key={p.slug}
+-              src={p.evidence.image}
+-              alt=""
+-              data-active={i === active ? "true" : "false"}
+-              loading="lazy"
+-              width={800}
+-              height={1000}
+-            />
+-          ) : null,
+-        )}
+-        <p className="idx-preview-big">{current?.name}</p>
+-        <span className="idx-preview-meta">{current?.category}</span>
+-      </div>
++            ) : null}
++            <span className="project-ledger__arrow" aria-hidden="true">↗</span>
++          </Link>
++        );
++      })}
+     </div>
+   );
+-}
+\ No newline at end of file
++}
