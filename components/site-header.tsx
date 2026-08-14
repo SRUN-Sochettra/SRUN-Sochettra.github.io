@@ -18,6 +18,7 @@ export default function SiteHeader() {
 
   useEffect(() => {
     if (!open) return;
+    const trigger = triggerRef.current;
     const panel = panelRef.current;
     const focusable = panel?.querySelectorAll<HTMLElement>("a[href], button:not([disabled])");
     focusable?.[0]?.focus();
@@ -45,7 +46,7 @@ export default function SiteHeader() {
     return () => {
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", onKeyDown);
-      triggerRef.current?.focus();
+      trigger?.focus();
     };
   }, [open]);
 
