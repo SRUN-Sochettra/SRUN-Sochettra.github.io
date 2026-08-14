@@ -61,7 +61,7 @@ export const projects: readonly Project[] = [
     direct: "https://github.com/SRUN-Sochettra/EggScan",
     license: "MIT",
     evidence: {
-      live: "https://eggscan.vercel.app",
+      live: "https://eggscan.eggscan.workers.dev/",
       overview: "EggScan instantly scans, audits, and analyzes any GitHub profile with Groq-powered AI, grading it on a 0–100 Egg Score and returning both a humorous roast and professional, constructive feedback.",
       features: [
         { title: "GitHub profile extraction", desc: "Fetches bio, pinned repositories, language distribution, and real-time contribution statistics." },
