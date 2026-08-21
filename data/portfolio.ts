@@ -61,7 +61,7 @@ export const projects: readonly Project[] = [
     direct: "https://github.com/SRUN-Sochettra/EggScan",
     license: "MIT",
     evidence: {
-      live: "https://eggscan.eggscan.workers.dev/",
+      live: "https://eggscan.0xlab.workers.dev/",
       overview: "EggScan instantly scans, audits, and analyzes any GitHub profile with Groq-powered AI, grading it on a 0–100 Egg Score and returning both a humorous roast and professional, constructive feedback.",
       features: [
         { title: "GitHub profile extraction", desc: "Fetches bio, pinned repositories, language distribution, and real-time contribution statistics." },
@@ -89,7 +89,7 @@ export const projects: readonly Project[] = [
     direct: "https://github.com/SRUN-Sochettra/HyperspaceOS",
     license: "MIT",
     evidence: {
-      live: "https://hyperspace-os.vercel.app",
+      live: "https://hyperspace.starlang.net/",
       overview: "HyperSpace OS is a fully functional, glassmorphism-styled desktop environment running entirely in the browser, built with Vanilla JavaScript and Canvas around a virtual file system and a real window manager.",
       features: [
         { title: "Window manager", desc: "Multi-window interface with drag, resize, stack, workspaces, and Spotlight search (Alt + Space)." },
@@ -117,6 +117,7 @@ export const projects: readonly Project[] = [
     direct: "https://github.com/SRUN-Sochettra/Research-AI",
     license: "MIT",
     evidence: {
+      live: "https://synapsedoc.theoriesincode.com/",
       overview: "Research AI uses autonomous agents to read uploaded PDFs, summarize them, and answer questions with page-level citations — combining a document-processing pipeline with a RAG pipeline over pgvector.",
       features: [
         { title: "PDF agent pipeline", desc: "Parses, smart-chunks, embeds, indexes, and summarizes any uploaded PDF automatically." },
