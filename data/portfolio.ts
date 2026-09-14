@@ -117,7 +117,7 @@ export const projects: readonly Project[] = [
     direct: "https://github.com/SRUN-Sochettra/Research-AI",
     license: "MIT",
     evidence: {
-      live: "https://synapsedoc.theoriesincode.com/",
+      live: "https://synapsedoc.explainable.md/",
       overview: "Research AI uses autonomous agents to read uploaded PDFs, summarize them, and answer questions with page-level citations — combining a document-processing pipeline with a RAG pipeline over pgvector.",
       features: [
         { title: "PDF agent pipeline", desc: "Parses, smart-chunks, embeds, indexes, and summarizes any uploaded PDF automatically." },
