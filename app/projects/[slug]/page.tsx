@@ -3,6 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { projects, site } from "@/data/portfolio";
+import CaseNavigator from "@/components/case-navigator";
+import SynapseDocPlayback from "@/components/synapsedoc-playback";
+import EggScanAudit from "@/components/eggscan-audit";
+import ThnalWorkflow from "@/components/thnal-workflow";
+import RfidConsole from "@/components/rfid-console";
+import GestureLab from "@/components/gesture-lab";
+import HyperspaceDesktop from "@/components/hyperspace-desktop";
+import ApiContractInspector from "@/components/api-contract-inspector";
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
@@ -33,6 +41,27 @@ export default async function ProjectCase({ params }: { params: Promise<Params> 
   const { evidence } = project;
   const number = String(index + 1).padStart(2, "0");
 
+  // Mirrors the section render order below, including only sections that exist.
+  const caseSections = [
+    { id: "overview", label: "Overview" },
+    ...(project.problem ? [{ id: "problem", label: "Problem" }] : []),
+    ...(project.ownership?.length
+      ? [{ id: "contribution", label: "Contribution" }]
+      : []),
+    ...(evidence.features?.length
+      ? [{ id: "features", label: "Capabilities" }]
+      : []),
+    ...(evidence.decisions?.length
+      ? [{ id: "decisions", label: "Decisions" }]
+      : []),
+    ...(project.verification?.length
+      ? [{ id: "verification", label: "Verification" }]
+      : []),
+    ...(project.limitations?.length
+      ? [{ id: "limitations", label: "Limitations" }]
+      : []),
+  ];
+
   return (
     <main id="main" className="case">
       {/* prefetch is disabled for the same static-export reason as the ledger. */}
@@ -61,6 +90,18 @@ export default async function ProjectCase({ params }: { params: Promise<Params> 
         </figure>
       )}
 
+      <CaseNavigator
+        projectName={project.name}
+        projectNumber={`P-${number}`}
+        sections={caseSections}
+      />
+      {project.slug === "synapsedoc" ? <SynapseDocPlayback /> : null}
+      {project.slug === "eggscan" ? <EggScanAudit /> : null}
+      {project.slug === "thnal-youth-association-management-system" ? <ThnalWorkflow /> : null}
+      {project.slug === "rfid-access-control" ? <RfidConsole /> : null}
+      {project.slug === "hand-gesture-puzzle" ? <GestureLab /> : null}
+      {project.slug === "hyperspace-os" ? <HyperspaceDesktop /> : null}
+      {project.slug === "spring-boot-blog-api" ? <ApiContractInspector /> : null}
       <div className="case-body">
         <nav className="case-toc" aria-label="On this page">
           <a href="#overview">01 Overview</a>
@@ -82,7 +123,7 @@ export default async function ProjectCase({ params }: { params: Promise<Params> 
             </section>
           )}
           {project.ownership?.length ? (
-            <section className="case-section" data-reveal="case-section">
+            <section className="case-section" data-reveal="case-section" id="contribution">
               <p className="field-label">Contribution</p>
               <h2>What I owned</h2>
               <ul>{project.ownership.map((item) => <li key={item}>{item}</li>)}</ul>
@@ -121,7 +162,7 @@ export default async function ProjectCase({ params }: { params: Promise<Params> 
             </section>
           ) : null}
           {project.limitations?.length ? (
-            <section className="case-section" data-reveal="case-section">
+            <section className="case-section" data-reveal="case-section" id="limitations">
               <p className="field-label">Evidence boundary</p>
               <h2>Known limitations</h2>
               <ul>{project.limitations.map((item) => <li key={item}>{item}</li>)}</ul>

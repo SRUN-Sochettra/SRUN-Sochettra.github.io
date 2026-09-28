@@ -8,3 +8,6 @@ repomix-output.xml
 
 # graft's local graph cache — regenerable, not committed (run `graft build`).
 graft/
+
+# installer backup artifacts — temporary, never committed.
+.portfolio-backup-*/

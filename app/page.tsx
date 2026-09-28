@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import IdentityMark from "@/components/identity-mark";
 import ProjectIndex from "@/components/project-index";
 import SiteHeader from "@/components/site-header";
 import {
@@ -44,16 +43,16 @@ export default function Home() {
         <section id="top" className="identity" aria-labelledby="identity-position">
           <div className="publication-grid identity__grid">
             <p className="field-notation identity__notation">
-              <span>Field notes</span>
-              <span>Software systems</span>
-              <span>2026</span>
+              <span>Portfolio / 2026</span>
+              <span>Phnom Penh</span>
+              <span>Scroll to inspect</span>
             </p>
 
             <div className="identity__position" data-reveal="hero-copy">
               <p className="identity__byline">{site.name} / {site.title}</p>
               <p id="identity-position" className="identity__statement">
-                I build software<br />
-                <em>from the failure state backward.</em>
+                Software that survives<br />
+                <em>contact with reality.</em>
               </p>
               <p className="identity__support">
                 {site.title} in {site.location}, focused on backend systems,
@@ -67,9 +66,6 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="identity__mark-stage" data-reveal="hero-mark">
-              <IdentityMark className="identity__mark" />
-            </div>
           </div>
         </section>
 
@@ -180,10 +176,10 @@ export default function Home() {
             <p className="field-notation">Archive</p>
             <div>
               <h2 id="archive-title">Systems on record</h2>
-              <p>Verified project facts, stacks, and source routes.</p>
+              <p>Seven systems across backend engineering, applied AI, interfaces, hardware, and computer vision.</p>
             </div>
           </div>
-          <div data-reveal="ledger">
+          <div className="project-stage" data-reveal="ledger">
             <ProjectIndex projects={ledgerProjects} numbers={ledgerNumbers} />
           </div>
         </section>
