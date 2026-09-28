@@ -26,7 +26,7 @@ jobs:
       - run: npm run build
         env:
           BUILD_TARGET: gh-pages
-          NEXT_PUBLIC_SITE_URL: https://srun-sochettra.github.io
+          NEXT_PUBLIC_SITE_URL: https://chettra.is-a.dev
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./out

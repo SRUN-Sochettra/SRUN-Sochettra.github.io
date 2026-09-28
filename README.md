@@ -29,7 +29,7 @@ npm run dev
 npm run lint
 npm run typecheck
 npm run build
-BUILD_TARGET=gh-pages NEXT_PUBLIC_SITE_URL=https://srun-sochettra.github.io npm run build
+BUILD_TARGET=gh-pages NEXT_PUBLIC_SITE_URL=https://chettra.is-a.dev npm run build
 ```
 
 Before deployment, manually check keyboard navigation, mobile-menu focus restoration, 200% zoom, 360 px width, reduced motion, failed images, JavaScript-disabled navigation, every external link, and direct navigation to project routes.
@@ -42,4 +42,4 @@ A resume link is intentionally not included until the final PDF is present in `p
 
 ## Deployment
 
-GitHub Pages static export is enabled when `BUILD_TARGET=gh-pages`. The workflow sets the canonical production origin through `NEXT_PUBLIC_SITE_URL` and uses Node 24 with pinned top-level dependency versions. Commit a regenerated lockfile before switching CI to `npm ci`.
+GitHub Pages static export is enabled when `BUILD_TARGET=gh-pages`. The production origin is `https://chettra.is-a.dev`, a GitHub Pages custom domain set in repository settings (no `CNAME` file is committed). The workflow sets the canonical origin through `NEXT_PUBLIC_SITE_URL` and uses Node 24 with pinned top-level dependency versions. The default `srun-sochettra.github.io` hostname still redirects to the custom domain.

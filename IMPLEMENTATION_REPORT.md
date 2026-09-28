@@ -49,7 +49,7 @@ Graft v0.10.1 (`graft map`, then one `graft ask --source`): ~13,526 tokens saved
 - `npm run lint` — exit 0, no errors or warnings.
 - `npm run typecheck` — exit 0.
 - `npm run build` — exit 0, 14 static routes.
-- `BUILD_TARGET=gh-pages NEXT_PUBLIC_SITE_URL=https://srun-sochettra.github.io npm run build` —
+- `BUILD_TARGET=gh-pages NEXT_PUBLIC_SITE_URL=https://chettra.is-a.dev npm run build` —
   exit 0. All 7 project routes plus home, 404, robots, sitemap, Open Graph image, and icon
   confirmed by inspecting `out/`. Route-specific canonicals correct on every page; sitemap
   lists home + all 7 projects in `data/portfolio.ts` order; robots allows crawling; no
@@ -62,6 +62,16 @@ Graft v0.10.1 (`graft map`, then one `graft ask --source`): ~13,526 tokens saved
   reachability of every link with visible focus, skip link, back navigation, reveal
   completeness after scroll and after client-side nav, fine-pointer-only hero response,
   horizontal overflow, and console/network cleanliness.
+
+## Production domain
+
+The canonical production origin is `https://chettra.is-a.dev`, a GitHub Pages custom domain
+configured in repository settings; no `CNAME` file is committed and none is required. The
+default `srun-sochettra.github.io` hostname 301-redirects to it, so the two are not competing
+canonicals. `NEXT_PUBLIC_SITE_URL` in `.env.example` and `.github/workflows/deploy.yml` is the
+single source for the homepage canonical, the per-project canonicals, and the sitemap origin.
+`app/layout.tsx` and `app/sitemap.ts` read that variable and fall back to `http://localhost:3000`
+for local development; neither hardcodes a hostname, so no code change was required.
 
 ## Evidence boundary
 
