@@ -1,4 +1,3 @@
-
 import type { NextConfig } from "next";
 
 const isGitHubPages = process.env.BUILD_TARGET === "gh-pages";

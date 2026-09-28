@@ -1,240 +1,157 @@
-
 export const site = {
   name: "Srun Sochettra",
-  title: "Full-Stack Developer & Information Technology Student",
+  title: "Backend & Full-Stack Developer",
   identity: "SRUN / Systems in Motion",
   location: "Phnom Penh, Cambodia",
   github: "https://github.com/SRUN-Sochettra",
   repositories: "https://github.com/SRUN-Sochettra?tab=repositories",
   linkedin: "https://www.linkedin.com/in/sochettra-srun-a67466395/",
   email: "srunsochettra@gmail.com",
-  metaTitle: "Srun Sochettra — Full-Stack Developer",
-  description:
-    "Portfolio of Srun Sochettra, a full-stack developer and Information Technology student building backend systems, modern web applications, AI-powered tools, and experimental software.",
-  ogDescription:
-    "Java, Spring Boot, React, PostgreSQL, AI tools, computer vision, and practical full-stack engineering.",
+  metaTitle: "Srun Sochettra — Backend & Full-Stack Developer",
+  description: "Portfolio of Srun Sochettra, a backend and full-stack developer building practical systems with Java, Spring Boot, PostgreSQL, React, and applied AI.",
+  ogDescription: "Java, Spring Boot, PostgreSQL, React, applied AI, and evidence-first software engineering.",
 } as const;
 
-export const principle = {
-  lead: "Build from the real workflow.",
-  detail: "Make state, failure, and evidence visible.",
-} as const;
-
+export const principle = { lead: "Build from the real workflow.", detail: "Make state, failure, and evidence visible." } as const;
+export const education = [
+  "Information Technology, National University of Management — January 2025 - Present",
+  "English, Institute of Foreign Languages — January 2025 - Present",
+] as const;
 export const bio = [
-  "I’m an Information Technology student in Phnom Penh focused on Java and Spring Boot backends, PostgreSQL, and full-stack web applications with React and TypeScript.",
-  "My projects also explore AI-powered developer tools, document retrieval, computer vision, and embedded systems — carried from data models and API contracts through to readable, accessible interfaces.",
+  "I build backend and full-stack systems with Java, Spring Boot, PostgreSQL, React, TypeScript, and applied AI.",
+  "My work includes deployed AI document software, developer tools, a full-stack system built for a real Cambodian organization, computer vision, and embedded access control.",
 ] as const;
 
 export type Feature = { title: string; desc: string };
 export type Decision = { label: string; value: string };
-export type ProjectEvidence = {
-  overview: string;
-  features?: readonly Feature[];
-  decisions?: readonly Decision[];
-  live?: string;
-  credits?: string;
-  image?: string;
-  imageAlt?: string;
-};
+export type ProjectEvidence = { overview: string; features?: readonly Feature[]; decisions?: readonly Decision[]; live?: string; credits?: string; image?: string; imageAlt?: string };
 export type Project = {
-  slug: string;
-  name: string;
-  category: string;
-  summary: string;
-  problem?: string;
-  stack: readonly string[];
-  featured?: boolean;
-  direct?: string;
-  license?: string;
+  slug: string; name: string; category: string; summary: string; problem?: string;
+  stack: readonly string[]; featured?: boolean; direct?: string; license?: string;
+  status?: string; role?: string; context?: string; ownership?: readonly string[];
+  verification?: readonly string[]; limitations?: readonly string[]; visibility?: string;
   evidence: ProjectEvidence;
 };
 
 export const projects: readonly Project[] = [
   {
-    slug: "eggscan",
-    name: "EggScan",
-    category: "AI-powered developer tool",
-    summary: "A developer tool combining GitHub data, language models, and human-readable output.",
-    problem: "Turn a raw GitHub profile into a scored, readable audit with both a roast and constructive feedback.",
-    stack: ["Spring Boot", "React", "Groq", "GitHub GraphQL"],
-    featured: true,
-    direct: "https://github.com/SRUN-Sochettra/EggScan",
-    license: "MIT",
-    evidence: {
-      live: "https://eggscan.0xlab.workers.dev/",
-      overview: "EggScan instantly scans, audits, and analyzes any GitHub profile with Groq-powered AI, grading it on a 0–100 Egg Score and returning both a humorous roast and professional, constructive feedback.",
-      features: [
-        { title: "GitHub profile extraction", desc: "Fetches bio, pinned repositories, language distribution, and real-time contribution statistics." },
-        { title: "GraphQL-optimized queries", desc: "Retrieves deep metrics in a single network round-trip via GitHub's GraphQL API." },
-        { title: "Groq-powered AI audit", desc: "Runs LLMs on Groq's high-speed inference engine to analyze portfolio strength and coding patterns." },
-        { title: "Egg Verdict system", desc: "Five egg-themed verdicts from Golden Egg (80–100) down to Scrambled (0–24)." },
-        { title: "Technical verdict", desc: "Combines a light-hearted roast with actionable feedback on quality and presentation." },
-        { title: "Glassmorphic dashboard", desc: "Dark-themed Vite + Tailwind UI with interactive feedback cards and live loaders." },
-      ],
-      decisions: [
-        { label: "Architecture", value: "Monorepo with a decoupled Spring Boot 3.3.4 (Java 21) backend and a Vite + React frontend." },
-        { label: "Endpoints", value: "/api/scan for analysis and /api/health for readiness checks." },
-        { label: "Configuration", value: "GITHUB_TOKEN bypasses rate limits; GROQ_API_KEY drives fast LLM queries." },
-      ],
-    },
-  },
-  {
-    slug: "hyperspace-os",
-    name: "HyperspaceOS",
-    category: "Browser-based operating system",
-    summary: "A web-based desktop environment running entirely in the browser, with a persistent virtual file system, multi-window management, and a suite of built-in applications.",
-    problem: "Recreate a full desktop OS — windows, file system, terminal, apps — using only the browser.",
-    stack: ["Vanilla JavaScript", "Canvas", "Three.js", "Vite"],
-    featured: true,
-    direct: "https://github.com/SRUN-Sochettra/HyperspaceOS",
-    license: "MIT",
-    evidence: {
-      live: "https://hyperspace.starlang.net/",
-      overview: "HyperSpace OS is a fully functional, glassmorphism-styled desktop environment running entirely in the browser, built with Vanilla JavaScript and Canvas around a virtual file system and a real window manager.",
-      features: [
-        { title: "Window manager", desc: "Multi-window interface with drag, resize, stack, workspaces, and Spotlight search (Alt + Space)." },
-        { title: "Virtual file system", desc: "LocalStorage-persisted CRUD over a Unix-like /, home, usr, etc structure." },
-        { title: "Built-in app suite", desc: "Terminal, CodeMirror 6 editor, file explorer, task manager, whiteboard, music player, and system monitor." },
-        { title: "Terminal shell", desc: "27+ Unix-like commands including ls, cd, mkdir, top, and neofetch." },
-        { title: "Three.js visuals", desc: "GPU-accelerated particle backgrounds, a theme engine, and 60 FPS transitions." },
-      ],
-      decisions: [
-        { label: "Core", value: "Vanilla JavaScript (ES6+ modules) with a custom-built window manager and UI kit." },
-        { label: "Graphics", value: "Three.js backgrounds over HTML5 Canvas; uPlot for data visualization." },
-        { label: "Editor", value: "CodeMirror 6 with Marked for Markdown rendering." },
-        { label: "Build", value: "Vite." },
-      ],
-    },
-  },
-  {
-    slug: "research-ai",
-    name: "Research AI",
-    category: "Document workflow",
-    summary: "A retrieval and citation-oriented document workflow with human-readable output.",
-    problem: "Read uploaded PDFs and answer questions with grounded, page-level citations.",
-    stack: ["Next.js", "TypeScript", "LangChain", "Supabase", "RAG"],
-    featured: true,
-    direct: "https://github.com/SRUN-Sochettra/Research-AI",
-    license: "MIT",
+    slug: "synapsedoc", name: "SynapseDoc", category: "Applied AI / RAG document system",
+    summary: "A deployed document-research system with citation-grounded chat, multi-provider routing, reranking, streaming, and persistent conversations.",
+    problem: "Make document research traceable by grounding answers in uploaded sources and preserving citations with the conversation.",
+    stack: ["Next.js", "TypeScript", "Supabase", "Gemini", "Groq", "Mistral", "Cohere"], featured: true,
+    direct: "https://github.com/SRUN-Sochettra/Research-AI", status: "Deployed", role: "Full-stack developer", context: "Personal applied-AI project",
+    ownership: ["Document ingestion and retrieval", "Provider routing and streaming chat", "Conversation and citation persistence", "Deployment verification"],
+    verification: ["Local format, type-check, lint, tests, and Next.js build passed", "A bounded production upload-to-chat flow was manually exercised"],
+    limitations: ["Broad load and failover resilience remain unproven", "Scanned-PDF OCR remains Gemini-only with a single-page mapping limitation"],
     evidence: {
       live: "https://synapsedoc.explainable.md/",
-      overview: "Research AI uses autonomous agents to read uploaded PDFs, summarize them, and answer questions with page-level citations — combining a document-processing pipeline with a RAG pipeline over pgvector.",
+      overview: "SynapseDoc uploads documents, retrieves relevant context, and streams citation-grounded answers. It routes across Gemini, Groq, and Mistral with bounded sequential fallback and uses Cohere reranking.",
       features: [
-        { title: "PDF agent pipeline", desc: "Parses, smart-chunks, embeds, indexes, and summarizes any uploaded PDF automatically." },
-        { title: "Cited answers", desc: "RAG over pgvector retrieves top-k chunks and streams answers with page-level citations." },
-        { title: "Graceful degradation", desc: "A multi-model fallback chain keeps the pipeline alive when a model is rate-limited." },
-        { title: "Row-level isolation", desc: "Supabase RLS isolates every user's documents and vectors at the database level." },
-        { title: "Observability", desc: "Langfuse traces LLM calls for latency and cost; structured JSON logging in production." },
+        { title: "Citation-grounded chat", desc: "Answers remain connected to retrieved document passages." },
+        { title: "Bounded provider routing", desc: "Gemini, Groq, and Mistral use controlled sequential fallback." },
+        { title: "Reranked retrieval", desc: "Cohere improves the ordering of retrieved context." },
+        { title: "Streaming and persistence", desc: "SSE streams responses while Supabase stores documents, conversations, messages, and citations." },
       ],
       decisions: [
-        { label: "Vector DB", value: "Supabase pgvector — avoids an extra service and lets RLS cover vectors too." },
-        { label: "LLM", value: "Google Gemini Flash Lite with an automatic fallback chain to stay within free-tier limits." },
-        { label: "Chunking", value: "Per-page + recursive splitting to preserve accurate page citations." },
-        { label: "Streaming", value: "Server-Sent Events for simpler serverless compatibility." },
-        { label: "Testing", value: "Vitest unit tests and Playwright E2E in a GitHub Actions pipeline." },
+        { label: "Grounding", value: "Retrieved passages and citations are first-class response evidence." },
+        { label: "Resilience", value: "Provider fallback is sequential and bounded." },
+        { label: "Persistence", value: "Document, conversation, message, and citation state live in Supabase." },
       ],
     },
   },
   {
-    slug: "full-stack-portfolio",
-    name: "Personal Full-Stack Portfolio",
-    category: "Full-stack system",
-    summary: "A database-backed portfolio carried from backend services to a modern interface.",
-    stack: ["React", "Spring Boot", "PostgreSQL"],
-    direct: "https://github.com/SRUN-Sochettra/Portfolio",
-    license: "MIT",
+    slug: "thnal-youth-association-management-system", name: "Thnal Youth Association Management System", category: "Real-organization full-stack capstone",
+    summary: "A database-management website developed as a full-stack course capstone for the Cambodian Youth Nursery Association.",
+    problem: "Translate a real Cambodian organization's workflow into a usable database-backed management system.",
+    stack: ["Full-stack web development", "Database management"], featured: true, status: "Course capstone completed", role: "Full-stack developer",
+    context: "Team client project for the Cambodian Youth Nursery Association", visibility: "Private client project",
+    ownership: ["Full-stack implementation", "Database-backed workflow development"],
+    limitations: ["Source code is private", "No usage, scale, deployment, or business-impact claims are made"],
     evidence: {
-      live: "https://srunsochettra.vercel.app",
-      overview: "A personal portfolio engineered with a Spring Boot REST API, a React interface, and a serverless PostgreSQL layer — featuring a dark-mode glassmorphism UI and interactive OpenAPI documentation.",
+      overview: "Built for the Cambodian Youth Nursery Association as a full-stack course capstone, this project was shaped around an external organizational workflow rather than invented only as a portfolio exercise.",
       features: [
-        { title: "Production REST API", desc: "Spring Boot 3.2.4 service with a service layer, JPA repositories, and a global exception handler." },
-        { title: "Serverless database", desc: "PostgreSQL 16 on Neon (or local Docker) with profiles, projects, skills, and contact_messages tables." },
-        { title: "Contact submissions", desc: "POST /api/contact_messages validates and persists visitor messages." },
-        { title: "Interactive API docs", desc: "SpringDoc OpenAPI exposes Swagger UI at /swagger-ui.html." },
-        { title: "Animated interface", desc: "React 19 + Vite 7 + Tailwind v4 client with Framer Motion and React Router v7." },
-        { title: "CI/CD pipeline", desc: "GitHub Actions with Vercel (frontend) and Render (backend) deployment." },
+        { title: "Real client context", desc: "Requirements were tied to the workflow of a Cambodian organization." },
+        { title: "Database-backed system", desc: "The capstone centered on managing organizational information through a full-stack website." },
       ],
       decisions: [
-        { label: "Client", value: "React 19 · TypeScript · Vite 7 · Tailwind CSS v4 · Framer Motion · React Router v7." },
-        { label: "Server", value: "Spring Boot 3.2.4 · Java 21 · Spring MVC · Spring Data JPA · Jakarta Validation." },
-        { label: "Data", value: "PostgreSQL 16 via HikariCP — Neon serverless in production, Docker Compose locally." },
-        { label: "API", value: "GET /api/profile · /api/projects · /api/skills · POST /api/contact_messages." },
+        { label: "Evidence boundary", value: "No public-deployment, user-scale, or measured-impact claim is made." },
+        { label: "Visibility", value: "Presented as private client work instead of linking to unavailable source." },
       ],
     },
   },
   {
-    slug: "khmer-banking",
-    name: "Khmer Banking",
-    category: "Full-stack application",
-    summary: "A database-backed application designed around a practical financial workflow.",
-    stack: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "KHQR"],
-    direct: "https://github.com/SRUN-Sochettra/Khmer-Banking",
-    license: "MIT",
+    slug: "eggscan", name: "EggScan", category: "AI-powered developer analysis suite",
+    summary: "A Spring Boot and React system for profile scanning, developer comparison, repository deep dives, commit analysis, README evaluation, and stack analysis.",
+    problem: "Turn raw GitHub data into readable portfolio and repository feedback without hiding the technical evidence.",
+    stack: ["Spring Boot", "React", "Groq", "GitHub GraphQL"], featured: true, direct: "https://github.com/SRUN-Sochettra/EggScan", license: "MIT",
+    status: "Deployed", role: "Full-stack developer", context: "Personal project",
+    ownership: ["Backend API and GitHub integration", "AI analysis flows", "Frontend experience and feature expansion"],
+    limitations: ["Live provider behavior requires runtime verification; automated checks alone do not prove production reliability"],
     evidence: {
-      overview: "A full-stack digital banking application with deep Bakong KHQR integration for the Cambodian market — managing balances, transfers, and spending behind secure authentication flows.",
+      live: "https://eggscan.0xlab.workers.dev/",
+      overview: "EggScan has grown beyond a profile scorer into a developer-analysis suite with multiple reviewer personas and focused tools for profiles, repositories, commits, READMEs, and technology stacks.",
       features: [
-        { title: "Bakong KHQR", desc: "Generate and scan Bakong-compatible KHQR codes for payments in the Cambodian market." },
-        { title: "Secure transfers", desc: "Peer-to-peer transfers and external account management." },
-        { title: "Dynamic dashboard", desc: "Real-time balance, spending trends, and recent activity with Recharts analytics." },
-        { title: "PDF statements", desc: "Generate and download professional statements of transaction history." },
-        { title: "Auth flows", desc: "NextAuth.js v5 authentication with OTP verification and password reset." },
-        { title: "Dark mode", desc: "Fully responsive design with native dark-mode support." },
+        { title: "Profile scan", desc: "Analyzes GitHub profile and contribution data with readable scoring and feedback." },
+        { title: "Developer battle", desc: "Compares two developer profiles through the same evidence-driven flow." },
+        { title: "Repository deep dive", desc: "Examines a repository beyond top-level profile signals." },
+        { title: "Focused analysis", desc: "Includes commit-message, README, and stack evaluation modes." },
+        { title: "Reviewer personas", desc: "Offers multiple presentation styles for the analysis." },
       ],
       decisions: [
-        { label: "Framework", value: "Next.js 15+ App Router with TypeScript and Tailwind CSS 4." },
-        { label: "Data", value: "PostgreSQL on Neon via Prisma ORM." },
-        { label: "Auth", value: "NextAuth.js v5 with OTP and password-reset flows." },
-        { label: "UI & email", value: "Shadcn UI + Radix primitives; Resend for transactional email." },
+        { label: "Data", value: "GitHub GraphQL consolidates profile and repository evidence." },
+        { label: "Backend", value: "Spring Boot owns integration and analysis orchestration." },
+        { label: "AI boundary", value: "Model output is analysis, not verified fact about a developer." },
       ],
     },
   },
   {
-    slug: "spring-boot-blog-api",
-    name: "Spring Boot Blog API",
-    category: "Backend API",
-    summary: "A Spring Boot backend centered on persistence, validation, authentication concepts, and API boundaries.",
-    stack: ["Spring Boot", "JWT", "MyBatis", "PostgreSQL", "Pinata IPFS"],
-    direct: "https://github.com/SRUN-Sochettra/Spring-Boot---API-Blog",
-    evidence: {
-      overview: "A REST API for a blog backend built with Spring Boot, centered on JWT authentication, PostgreSQL persistence, MyBatis data access, and Pinata IPFS file uploads.",
-      features: [
-        { title: "JWT authentication", desc: "Token-based authentication securing the blog API endpoints." },
-        { title: "PostgreSQL persistence", desc: "Relational storage for the blog's data." },
-        { title: "MyBatis data access", desc: "SQL-mapper–based persistence layer over PostgreSQL." },
-        { title: "Pinata IPFS uploads", desc: "File uploads stored on IPFS via Pinata." },
-      ],
-    },
+    slug: "spring-boot-blog-api", name: "Spring Boot Blog API", category: "Backend REST API",
+    summary: "A Java and Spring Boot API focused on explicit HTTP contracts, persistence, validation, and maintainable backend structure.",
+    stack: ["Java", "Spring Boot", "PostgreSQL", "REST APIs"], direct: "https://github.com/SRUN-Sochettra/Spring-Boot---API-Blog",
+    role: "Backend developer", context: "Personal learning project",
+    evidence: { overview: "A backend project for practicing Spring Boot API design, database persistence, validation, and predictable HTTP responses.", features: [
+      { title: "REST contracts", desc: "Routes expose explicit request and response behavior." },
+      { title: "Persistence", desc: "Blog data is stored through a database-backed application layer." },
+    ] },
   },
   {
-    slug: "hand-gesture-puzzle",
-    name: "Hand Gesture Puzzle Game",
-    category: "Computer vision",
-    summary: "An experimental gesture-controlled interface connecting browser logic with camera input.",
-    stack: ["Python", "OpenCV", "MediaPipe"],
-    direct: "https://github.com/SRUN-Sochettra/Hand-Gesture-Puzzle-Game",
-    license: "MIT",
-    evidence: {
-      credits: "Srun Sochettra, Tep Makara & Sar Chanrithy",
-      overview: "A webcam-based puzzle game controlled with real-time hand gestures: pinch to grab a shape, drag it across the screen, and drop it onto a matching moving target across five progressive levels.",
-      features: [
-        { title: "Real-time hand tracking", desc: "MediaPipe Hands reads webcam landmarks frame by frame." },
-        { title: "Pinch to grab", desc: "Thumb–index distance, normalized by hand size, drives intuitive grab and drop." },
-        { title: "5 progressive levels", desc: "From static targets to smaller shapes with fast diagonal XY movement." },
-        { title: "Live HUD", desc: "Hand-speed meter and FPS display with in-game restart and next-level controls." },
-        { title: "Tunable gameplay", desc: "Pinch sensitivity, cursor smoothing, snap distance, and target speed configurable in config.py." },
-      ],
-      decisions: [
-        { label: "Vision", value: "OpenCV capture with MediaPipe Hands (pinned 0.10.21 for the legacy solutions API)." },
-        { label: "Structure", value: "Split across main, config, game, vision, and renderer modules." },
-        { label: "Runtime", value: "Python 3.11 with a webcam; cross-platform on Windows / macOS / Linux." },
-      ],
-    },
+    slug: "hyperspace-os", name: "HyperspaceOS", category: "Browser desktop experiment",
+    summary: "An experimental browser-based desktop environment focused on interaction design and reusable interface systems.",
+    stack: ["React", "TypeScript", "Web interfaces"], direct: "https://github.com/SRUN-Sochettra/HyperspaceOS", license: "MIT",
+    role: "Frontend developer", context: "Personal experimental project",
+    evidence: { live: "https://hyperspace.starlang.net/", overview: "HyperspaceOS explores a desktop-like interface in the browser through windows, applications, navigation, and reusable interaction patterns.", features: [
+      { title: "Desktop metaphor", desc: "Organizes browser interactions through a multi-window environment." },
+      { title: "Reusable interface system", desc: "Treats windows and applications as composable UI structures." },
+    ] },
+  },
+  {
+    slug: "rfid-access-control", name: "RFID Access Control System", category: "Embedded systems",
+    summary: "A Raspberry Pi Pico and MicroPython access-control project using RFID input and OLED feedback.",
+    stack: ["Raspberry Pi Pico", "MicroPython", "RFID", "OLED"], role: "Embedded software developer", context: "Academic hardware project",
+    evidence: { overview: "An embedded access-control prototype that reads RFID credentials and communicates system state through an OLED display.", features: [
+      { title: "RFID input", desc: "Reads physical credentials through an RFID module." },
+      { title: "Device feedback", desc: "Shows access-control state on an OLED display." },
+    ] },
+  },
+  {
+    slug: "hand-gesture-puzzle", name: "Hand Gesture Puzzle Game", category: "Computer vision game",
+    summary: "A webcam puzzle controlled through real-time hand tracking, pinch gestures, moving targets, and progressive levels.",
+    stack: ["Python", "OpenCV", "MediaPipe"], direct: "https://github.com/SRUN-Sochettra/Hand-Gesture-Puzzle-Game", license: "MIT",
+    role: "Team developer", context: "Academic team project",
+    evidence: { credits: "Srun Sochettra, Tep Makara & Sar Chanrithy", overview: "A webcam-based puzzle game controlled with real-time hand gestures across five levels.", features: [
+      { title: "Real-time tracking", desc: "MediaPipe Hands reads webcam landmarks frame by frame." },
+      { title: "Pinch interaction", desc: "Thumb-index distance drives grabbing and dropping." },
+      { title: "Progressive levels", desc: "Targets become smaller and move faster across five levels." },
+    ], decisions: [
+      { label: "Vision", value: "OpenCV capture with MediaPipe Hands." },
+      { label: "Structure", value: "Responsibilities are split across game, vision, renderer, and configuration modules." },
+    ] },
   },
 ];
 
 export const capabilityGroups = [
   { name: "Backend systems", items: ["Java", "Spring Boot", "MyBatis", "PostgreSQL", "REST APIs"] },
   { name: "Interfaces", items: ["React", "TypeScript", "Responsive interfaces", "Accessibility"] },
-  { name: "Applied AI & hardware", items: ["Groq", "GitHub GraphQL", "RAG", "Python", "MicroPython", "Computer Vision"] },
+  { name: "Applied AI & hardware", items: ["RAG", "Gemini", "Groq", "Mistral", "Cohere", "Python", "MicroPython", "Computer Vision"] },
   { name: "Engineering practice", items: ["Git", "GitHub Actions", "Docker", "SonarQube", "Documentation", "Database design"] },
 ] as const;

@@ -1,4 +1,3 @@
-
 type IdentityMarkProps = { className?: string };
 
 export default function IdentityMark({ className = "" }: IdentityMarkProps) {

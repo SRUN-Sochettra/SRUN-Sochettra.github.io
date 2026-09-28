@@ -13,6 +13,7 @@ export default defineConfig([
 
     // Tool-generated files, not application source
     ".claude/**",
+    ".cursor/**",
     "graft/**",
   ]),
 ]);

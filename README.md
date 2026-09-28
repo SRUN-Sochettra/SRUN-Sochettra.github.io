@@ -1,18 +1,20 @@
-
 # SRUN / Systems in Motion
 
-A type-driven, evidence-first portfolio for Srun Sochettra. The implementation uses Next.js App Router, strict TypeScript, semantic HTML, a 14-column editorial grid, and minimal client JavaScript.
+An evidence-first portfolio for Srun Sochettra, built with Next.js App Router, TypeScript, semantic HTML, and minimal client JavaScript.
 
-## What changed
+## Content model
 
-- Replaced the previous generic portfolio composition with an executable-editorial visual system.
-- Added a polished variable-font SRUN identity mark.
-- Added sticky translucent navigation, visible focus treatment, a skip link, and a keyboard-trapped mobile menu with Escape support.
-- Promoted EggScan into a flagship system trace and moved every other verified project into an accessible project ledger.
-- Preserved verified project facts and direct source/live links without inventing screenshots or outcomes.
-- Rebuilt case studies around overview, problem, capabilities, engineering decisions, credits, and next-project navigation.
-- Added responsive 14 → 8 → 4 column behavior, reduced-motion handling, forced-colors support, 404/error recovery, SEO metadata, sitemap, robots, and Open Graph output.
-- Kept GitHub Pages static export support behind `BUILD_TARGET=gh-pages`.
+The portfolio currently highlights seven differentiated projects in recruiter-oriented order:
+
+1. SynapseDoc
+2. Thnal Youth Association Management System
+3. EggScan
+4. Spring Boot Blog API
+5. HyperspaceOS
+6. RFID Access Control System
+7. Hand Gesture Puzzle Game
+
+Case studies can show status, role, context, ownership, verification, limitations, source visibility, live links, and real screenshots. Projects without verified images deliberately render without fabricated media.
 
 ## Run locally
 
@@ -27,12 +29,17 @@ npm run dev
 npm run lint
 npm run typecheck
 npm run build
+BUILD_TARGET=gh-pages NEXT_PUBLIC_SITE_URL=https://srun-sochettra.github.io npm run build
 ```
 
-For the GitHub Pages build in PowerShell:
+Before deployment, manually check keyboard navigation, mobile-menu focus restoration, 200% zoom, 360 px width, reduced motion, failed images, JavaScript-disabled navigation, every external link, and direct navigation to project routes.
 
-```powershell
-$env:BUILD_TARGET="gh-pages"; npm run build; Remove-Item Env:\BUILD_TARGET
-```
+## Adding evidence
 
-Set `NEXT_PUBLIC_SITE_URL` to the canonical production origin when deploying.
+Place real project screenshots under `public/projects/`, then set `evidence.image` and `evidence.imageAlt` in `data/portfolio.ts`. Do not use mockups or unverified claims.
+
+A resume link is intentionally not included until the final PDF is present in `public/`. When available, use the stable path `public/srun-sochettra-resume.pdf` and expose it in the desktop navigation, mobile navigation, hero actions, and contact section.
+
+## Deployment
+
+GitHub Pages static export is enabled when `BUILD_TARGET=gh-pages`. The workflow sets the canonical production origin through `NEXT_PUBLIC_SITE_URL` and uses Node 24 with pinned top-level dependency versions. Commit a regenerated lockfile before switching CI to `npm ci`.

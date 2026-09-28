@@ -1,4 +1,3 @@
-
 import { ImageResponse } from "next/og";
 export const dynamic = "force-static";
 export const alt = "Srun Sochettra — Systems in Motion";

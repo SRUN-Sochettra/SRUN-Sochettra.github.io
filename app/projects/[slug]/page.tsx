@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +14,12 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const project = projects.find((item) => item.slug === slug);
   if (!project) return { title: "Not found" };
   const title = `${project.name} — ${site.name}`;
-  return { title, description: project.summary, openGraph: { title, description: project.summary, type: "article" } };
+  return {
+    title,
+    description: project.summary,
+    alternates: { canonical: `/projects/${project.slug}` },
+    openGraph: { title, description: project.summary, type: "article" },
+  };
 }
 
 export default async function ProjectCase({ params }: { params: Promise<Params> }) {
@@ -37,6 +41,10 @@ export default async function ProjectCase({ params }: { params: Promise<Params> 
         <p className="case-intro">{project.summary}</p>
         <div className="case-meta">
           <span><b>Category</b>{project.category}</span>
+          {project.status && <span><b>Status</b>{project.status}</span>}
+          {project.role && <span><b>Role</b>{project.role}</span>}
+          {project.context && <span><b>Context</b>{project.context}</span>}
+          {project.visibility && <span><b>Visibility</b>{project.visibility}</span>}
           <span><b>Stack</b>{project.stack.join(" · ")}</span>
           {project.license && <span><b>License</b>{project.license}</span>}
           {evidence.live && <a href={evidence.live} target="_blank" rel="noopener noreferrer"><b>Live</b>Open build ↗</a>}
@@ -70,6 +78,13 @@ export default async function ProjectCase({ params }: { params: Promise<Params> 
               <p>{project.problem}</p>
             </section>
           )}
+          {project.ownership?.length ? (
+            <section className="case-section">
+              <p className="field-label">Contribution</p>
+              <h2>What I owned</h2>
+              <ul>{project.ownership.map((item) => <li key={item}>{item}</li>)}</ul>
+            </section>
+          ) : null}
           {evidence.features?.length ? (
             <section className="case-section" id="features">
               <p className="field-label">Capabilities</p>
@@ -93,6 +108,20 @@ export default async function ProjectCase({ params }: { params: Promise<Params> 
                   <div key={decision.label}><dt>{decision.label}</dt><dd>{decision.value}</dd></div>
                 ))}
               </dl>
+            </section>
+          ) : null}
+          {project.verification?.length ? (
+            <section className="case-section" id="verification">
+              <p className="field-label">Verification</p>
+              <h2>Evidence checked</h2>
+              <ul>{project.verification.map((item) => <li key={item}>{item}</li>)}</ul>
+            </section>
+          ) : null}
+          {project.limitations?.length ? (
+            <section className="case-section">
+              <p className="field-label">Evidence boundary</p>
+              <h2>Known limitations</h2>
+              <ul>{project.limitations.map((item) => <li key={item}>{item}</li>)}</ul>
             </section>
           ) : null}
           {evidence.credits && <p className="case-credits">Credits: {evidence.credits}</p>}

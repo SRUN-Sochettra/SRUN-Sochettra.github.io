@@ -1,4 +1,3 @@
-
 import type { MetadataRoute } from "next";
 import { projects } from "@/data/portfolio";
 export const dynamic = "force-static";

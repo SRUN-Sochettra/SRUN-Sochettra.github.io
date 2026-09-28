@@ -1,4 +1,3 @@
-
 name: Deploy to GitHub Pages
 on:
   push:
@@ -27,6 +26,7 @@ jobs:
       - run: npm run build
         env:
           BUILD_TARGET: gh-pages
+          NEXT_PUBLIC_SITE_URL: https://srun-sochettra.github.io
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
