@@ -18,7 +18,9 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     title,
     description: project.summary,
     alternates: { canonical: `/projects/${project.slug}` },
-    openGraph: { title, description: project.summary, type: "article" },
+    // `images` is required here: a project-level openGraph object replaces the
+    // layout one outright, so omitting it drops the social preview image.
+    openGraph: { title, description: project.summary, type: "article", images: ["/opengraph-image"] },
   };
 }
 
@@ -33,8 +35,9 @@ export default async function ProjectCase({ params }: { params: Promise<Params> 
 
   return (
     <main id="main" className="case">
-      <div className="case-back"><Link className="text-action" href="/#index">← All systems</Link></div>
-      <header className="case-header">
+      {/* prefetch is disabled for the same static-export reason as the ledger. */}
+      <div className="case-back"><Link className="text-action" href="/#index" prefetch={false}>← All systems</Link></div>
+      <header className="case-header" data-reveal="case-hero">
         <span className="case-num">P–{number} / {String(projects.length).padStart(2, "0")}</span>
         <p className="machine-label case-kicker">Case study / {project.category}</p>
         <h1 className="case-title">{project.name}</h1>
@@ -53,7 +56,7 @@ export default async function ProjectCase({ params }: { params: Promise<Params> 
       </header>
 
       {evidence.image && (
-        <figure className="case-poster">
+        <figure className="case-poster" data-reveal="case-poster">
           <Image src={evidence.image} alt={evidence.imageAlt ?? `${project.name} interface screenshot`} width={1600} height={900} priority />
         </figure>
       )}
@@ -66,27 +69,27 @@ export default async function ProjectCase({ params }: { params: Promise<Params> 
           {evidence.decisions?.length ? <a href="#decisions">04 Decisions</a> : null}
         </nav>
         <div className="case-main">
-          <section className="case-section" id="overview">
+          <section className="case-section" data-reveal="case-section" id="overview">
             <p className="field-label">Overview</p>
             <h2>What the system is</h2>
             <p>{evidence.overview}</p>
           </section>
           {project.problem && (
-            <section className="case-section" id="problem">
+            <section className="case-section" data-reveal="case-section" id="problem">
               <p className="field-label">Problem</p>
               <h2>The constraint that shaped it</h2>
               <p>{project.problem}</p>
             </section>
           )}
           {project.ownership?.length ? (
-            <section className="case-section">
+            <section className="case-section" data-reveal="case-section">
               <p className="field-label">Contribution</p>
               <h2>What I owned</h2>
               <ul>{project.ownership.map((item) => <li key={item}>{item}</li>)}</ul>
             </section>
           ) : null}
           {evidence.features?.length ? (
-            <section className="case-section" id="features">
+            <section className="case-section" data-reveal="case-section" id="features">
               <p className="field-label">Capabilities</p>
               <h2>What it does</h2>
               <ul className="feature-list">
@@ -100,7 +103,7 @@ export default async function ProjectCase({ params }: { params: Promise<Params> 
             </section>
           ) : null}
           {evidence.decisions?.length ? (
-            <section className="case-section" id="decisions">
+            <section className="case-section" data-reveal="case-section" id="decisions">
               <p className="field-label">Engineering</p>
               <h2>Decisions on record</h2>
               <dl className="decisions">
@@ -111,14 +114,14 @@ export default async function ProjectCase({ params }: { params: Promise<Params> 
             </section>
           ) : null}
           {project.verification?.length ? (
-            <section className="case-section" id="verification">
+            <section className="case-section" data-reveal="case-section" id="verification">
               <p className="field-label">Verification</p>
               <h2>Evidence checked</h2>
               <ul>{project.verification.map((item) => <li key={item}>{item}</li>)}</ul>
             </section>
           ) : null}
           {project.limitations?.length ? (
-            <section className="case-section">
+            <section className="case-section" data-reveal="case-section">
               <p className="field-label">Evidence boundary</p>
               <h2>Known limitations</h2>
               <ul>{project.limitations.map((item) => <li key={item}>{item}</li>)}</ul>
@@ -129,8 +132,8 @@ export default async function ProjectCase({ params }: { params: Promise<Params> 
             {evidence.live && <a className="button" href={evidence.live} target="_blank" rel="noopener noreferrer">Open live ↗</a>}
             {project.direct && <a className="text-action" href={project.direct} target="_blank" rel="noopener noreferrer">View source ↗</a>}
           </div>
-          <div className="case-next">
-            <Link href={`/projects/${next.slug}`}>
+          <div className="case-next" data-reveal="case-next">
+            <Link href={`/projects/${next.slug}`} prefetch={false}>
               <span className="machine-label">Next system</span>
               <span className="name">{next.name} <span aria-hidden="true">→</span></span>
             </Link>

@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import Link from "next/link";
 import IdentityMark from "@/components/identity-mark";
@@ -14,14 +13,29 @@ import {
 
 const mailtoHref = `mailto:${site.email}`;
 
+/** The system given the full flagship spread; the ledger lists every other project. */
+const FLAGSHIP_SLUG = "eggscan";
+const FLAGSHIP_TRACE = [
+  "GitHub profile",
+  "GraphQL extraction",
+  "Spring service",
+  "Groq audit",
+  "Readable verdict",
+] as const;
+
 export default function Home() {
-  const eggscan = projects.find((project) => project.slug === "eggscan");
-  const archiveProjects = projects.filter((project) => project.slug !== "eggscan");
+  const flagship = projects.find((project) => project.slug === FLAGSHIP_SLUG);
+  const ledgerProjects = projects.filter((project) => project.slug !== FLAGSHIP_SLUG);
 
-  if (!eggscan) return null;
+  if (!flagship) return null;
 
-  const hasRepository = Boolean(eggscan.direct);
-  const hasLiveBuild = Boolean(eggscan.evidence.live);
+  // P-numbers are the 1-based position in data/portfolio.ts, so the flagship
+  // spread, the ledger, and every case study report the same number for a project.
+  const flagshipNumber = String(projects.indexOf(flagship) + 1).padStart(2, "0");
+  const ledgerNumbers = ledgerProjects.map((project) => projects.indexOf(project) + 1);
+
+  const hasRepository = Boolean(flagship.direct);
+  const hasLiveBuild = Boolean(flagship.evidence.live);
 
   return (
     <>
@@ -35,7 +49,7 @@ export default function Home() {
               <span>2026</span>
             </p>
 
-            <div className="identity__position">
+            <div className="identity__position" data-reveal="hero-copy">
               <p className="identity__byline">{site.name} / {site.title}</p>
               <p id="identity-position" className="identity__statement">
                 I build software<br />
@@ -53,39 +67,46 @@ export default function Home() {
               </div>
             </div>
 
-            <IdentityMark className="identity__mark" />
+            <div className="identity__mark-stage" data-reveal="hero-mark">
+              <IdentityMark className="identity__mark" />
+            </div>
           </div>
         </section>
 
-        <section id="work" className="system-feature" aria-labelledby="eggscan-title">
+        <section
+          id="work"
+          className="system-feature"
+          aria-labelledby="eggscan-title"
+          data-reveal="system"
+        >
           <div className="publication-grid system-feature__grid">
-            <p className="system-feature__id">P–01</p>
+            <p className="system-feature__id">P–{flagshipNumber}</p>
 
             <header className="system-feature__header">
-              <p className="machine-label">Flagship system / {eggscan.category}</p>
-              <h2 id="eggscan-title">{eggscan.name}</h2>
+              <p className="machine-label">Flagship system / {flagship.category}</p>
+              <h2 id="eggscan-title">{flagship.name}</h2>
             </header>
 
             <div className="system-observation">
               <p className="field-label">Observation</p>
-              <p>{eggscan.problem ?? eggscan.summary}</p>
+              <p>{flagship.problem ?? flagship.summary}</p>
             </div>
 
             <div className="system-trace" aria-labelledby="eggscan-system-label">
               <p id="eggscan-system-label" className="field-label">System</p>
               <ol>
-                <li>GitHub profile</li>
-                <li>GraphQL extraction</li>
-                <li>Spring service</li>
-                <li>Groq audit</li>
-                <li>Readable verdict</li>
+                {FLAGSHIP_TRACE.map((step, index) => (
+                  <li key={step} style={{ "--trace-index": index } as React.CSSProperties}>
+                    {step}
+                  </li>
+                ))}
               </ol>
             </div>
 
             <div className="system-decisions">
               <p className="field-label">Decision</p>
               <dl>
-                {eggscan.evidence.decisions?.slice(0, 2).map((decision) => (
+                {flagship.evidence.decisions?.slice(0, 2).map((decision) => (
                   <div key={decision.label}>
                     <dt>{decision.label}</dt>
                     <dd>{decision.value}</dd>
@@ -96,11 +117,11 @@ export default function Home() {
 
             <div className="system-evidence">
               <p className="field-label">Evidence</p>
-              {eggscan.evidence.image ? (
+              {flagship.evidence.image ? (
                 <figure className="evidence-frame evidence-frame--image">
                   <Image
-                    src={eggscan.evidence.image}
-                    alt={eggscan.evidence.imageAlt ?? `${eggscan.name} project evidence`}
+                    src={flagship.evidence.image}
+                    alt={flagship.evidence.imageAlt ?? `${flagship.name} project evidence`}
                     fill
                     priority
                     sizes="(max-width: 900px) 100vw, 30vw"
@@ -120,16 +141,17 @@ export default function Home() {
             </div>
 
             <div className="system-feature__actions">
-              <Link className="text-action" href={`/projects/${eggscan.slug}`}>
+              {/* prefetch is disabled for the same static-export reason as the ledger. */}
+              <Link className="text-action" href={`/projects/${flagship.slug}`} prefetch={false}>
                 Open case study
               </Link>
-              {eggscan.evidence.live ? (
-                <a className="text-action" href={eggscan.evidence.live} target="_blank" rel="noopener noreferrer">
+              {flagship.evidence.live ? (
+                <a className="text-action" href={flagship.evidence.live} target="_blank" rel="noopener noreferrer">
                   Open live <span aria-hidden="true">↗</span>
                 </a>
               ) : null}
-              {eggscan.direct ? (
-                <a className="text-action text-action--quiet" href={eggscan.direct} target="_blank" rel="noopener noreferrer">
+              {flagship.direct ? (
+                <a className="text-action text-action--quiet" href={flagship.direct} target="_blank" rel="noopener noreferrer">
                   Source <span aria-hidden="true">↗</span>
                 </a>
               ) : null}
@@ -137,7 +159,12 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="notes" className="field-note" aria-labelledby="field-note-001">
+        <section
+          id="notes"
+          className="field-note"
+          aria-labelledby="field-note-001"
+          data-reveal="quote"
+        >
           <div className="publication-grid field-note__grid">
             <p className="field-note__index">Note / 001</p>
             <h2 id="field-note-001" className="sr-only">Working principle</h2>
@@ -149,17 +176,24 @@ export default function Home() {
         </section>
 
         <section id="index" className="archive" aria-labelledby="archive-title">
-          <div className="archive__header publication-grid">
+          <div className="archive__header publication-grid" data-reveal="heading">
             <p className="field-notation">Archive</p>
             <div>
               <h2 id="archive-title">Systems on record</h2>
               <p>Verified project facts, stacks, and source routes.</p>
             </div>
           </div>
-          <ProjectIndex projects={archiveProjects} startNumber={2} />
+          <div data-reveal="ledger">
+            <ProjectIndex projects={ledgerProjects} numbers={ledgerNumbers} />
+          </div>
         </section>
 
-        <section id="profile" className="working-position" aria-labelledby="profile-title">
+        <section
+          id="profile"
+          className="working-position"
+          aria-labelledby="profile-title"
+          data-reveal="profile"
+        >
           <div className="publication-grid working-position__grid">
             <p className="field-notation">Working position</p>
             <div className="working-position__narrative">
@@ -178,7 +212,12 @@ export default function Home() {
         </section>
       </main>
 
-      <section id="contact" className="contact-sheet" aria-labelledby="contact-title">
+      <section
+        id="contact"
+        className="contact-sheet"
+        aria-labelledby="contact-title"
+        data-reveal="contact"
+      >
         <div className="publication-grid contact-sheet__grid">
           <p className="field-notation">Contact</p>
           <div className="contact-sheet__main">

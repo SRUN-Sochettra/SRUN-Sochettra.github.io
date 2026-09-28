@@ -2,15 +2,19 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/data/portfolio";
 
-type Props = { projects: readonly Project[]; startNumber: number };
+type Props = { projects: readonly Project[]; numbers: readonly number[] };
 
-export default function ProjectIndex({ projects, startNumber }: Props) {
+export default function ProjectIndex({ projects, numbers }: Props) {
   return (
-    <div className="project-ledger" role="list">
+    <div className="project-ledger">
       {projects.map((project, index) => {
-        const number = String(startNumber + index).padStart(2, "0");
+        const number = String(numbers[index]).padStart(2, "0");
         return (
-          <Link className="project-ledger__row" href={`/projects/${project.slug}`} key={project.slug} role="listitem">
+          // prefetch is disabled: in a static export the per-route RSC page
+          // payload is not served at the path the client requests, so the
+          // speculative fetch always 404s. Navigation falls back to the
+          // pre-rendered index.txt and works either way.
+          <Link className="project-ledger__row" href={`/projects/${project.slug}`} key={project.slug} prefetch={false} style={{ "--row-index": index } as React.CSSProperties}>
             <span className="project-ledger__id">P–{number}</span>
             <span className="project-ledger__content">
               <span className="project-ledger__name">{project.name}</span>

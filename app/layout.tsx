@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Anybody, Geist, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { site } from "@/data/portfolio";
+import MotionDirector from "@/components/motion-director";
 
 const identity = Anybody({
   subsets: ["latin"],
@@ -39,10 +40,13 @@ export const viewport: Viewport = { themeColor: "#f0ede5", colorScheme: "light" 
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${identity.variable} ${sans.variable} ${mono.variable}`}>
+    // `no-js` is removed by MotionDirector on hydration, which releases the
+    // no-script navigation fallback declared in globals.css.
+    <html lang="en" className={`no-js ${identity.variable} ${sans.variable} ${mono.variable}`}>
       <body>
         <a className="skip" href="#main">Skip to content</a>
         {children}
+        <MotionDirector />
       </body>
     </html>
   );
