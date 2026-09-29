@@ -123,15 +123,42 @@ export default function Home() {
                     sizes="(max-width: 900px) 100vw, 30vw"
                   />
                 </figure>
+              ) : hasLiveBuild && flagship.evidence.live ? (
+                <a
+                  className="evidence-frame evidence-frame--status evidence-frame--live"
+                  href={flagship.evidence.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Open the ${flagship.name} live build in a new tab`}
+                >
+                  <span className="machine-label">Live system</span>
+                  <strong>Published build</strong>
+                  <span className="evidence-frame__support">Explore the live analysis suite</span>
+                  <span className="evidence-frame__action">
+                    Open live build <span aria-hidden="true">↗</span>
+                  </span>
+                </a>
+              ) : hasRepository && flagship.direct ? (
+                <a
+                  className="evidence-frame evidence-frame--status evidence-frame--live"
+                  href={flagship.direct}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`View the ${flagship.name} source repository in a new tab`}
+                >
+                  <span className="machine-label">Source available</span>
+                  <strong>Repository published</strong>
+                  <span className="evidence-frame__support">Read the source behind the system</span>
+                  <span className="evidence-frame__action">
+                    View source <span aria-hidden="true">↗</span>
+                  </span>
+                </a>
               ) : (
+                /* Neither a live build nor a source repository exists. */
                 <div className="evidence-frame evidence-frame--status">
                   <span className="machine-label">Visual evidence</span>
                   <strong>Not published</strong>
-                  <span>
-                    {[hasRepository && "Repository", hasLiveBuild && "live build"]
-                      .filter(Boolean)
-                      .join(" and ") || "Case study"} available
-                  </span>
+                  <span>Case study only</span>
                 </div>
               )}
             </div>

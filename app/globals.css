@@ -914,3 +914,50 @@ html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!
   .case-command--movable[data-retracted="false"],
   .case-command--movable[data-dragging="true"] { translate: 0 0; }
 }
+
+/* Published-build evidence card: the whole card is the live/repository link.
+   Motion is transform/opacity only, and every rule is dropped under reduced motion. */
+.evidence-frame--live {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform 320ms cubic-bezier(.22, 1, .36, 1), box-shadow 320ms cubic-bezier(.22, 1, .36, 1);
+}
+.evidence-frame--live .machine-label { color: var(--acid); }
+.evidence-frame--live .evidence-frame__support { margin-top: .7rem; color: #b5b7af; }
+.evidence-frame--live .evidence-frame__action {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  align-self: flex-start;
+  white-space: nowrap;
+  margin-top: 1.05rem;
+  padding: .5rem .7rem;
+  border: 1px solid rgb(186 255 67 / 42%);
+  color: var(--acid);
+  font: 600 .74rem/1 var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  transition: background 220ms ease, color 220ms ease, border-color 220ms ease;
+}
+/* Beats the base `.evidence-frame--status span:last-child` colour rule. */
+.evidence-frame--status.evidence-frame--live .evidence-frame__action { color: var(--acid); }
+.evidence-frame--live:hover,
+.evidence-frame--live:focus-visible {
+  transform: rotate(1.3deg) translateY(-.4rem);
+  box-shadow: 1.15rem 1.15rem 0 var(--red);
+}
+.evidence-frame--live:hover .evidence-frame__action,
+.evidence-frame--live:focus-visible .evidence-frame__action {
+  background: var(--acid);
+  border-color: var(--acid);
+  color: #080a0a;
+}
+@media (prefers-reduced-motion: reduce) {
+  .evidence-frame--live { transition: none; }
+  .evidence-frame--live:hover,
+  .evidence-frame--live:focus-visible { transform: rotate(1.3deg); }
+  .evidence-frame--live .evidence-frame__action { transition: none; }
+}
