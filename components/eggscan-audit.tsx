@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { EggScanVisual } from "@/components/system-visuals";
 
 const modes = [
   { id:"01", name:"Profile", input:"Profile + contributions", output:"Readable scoring and feedback" },
@@ -52,6 +53,7 @@ export default function EggScanAudit() {
 
         <div className="eggscan-audit__terminal">
           <div className="eggscan-audit__scan" aria-hidden="true" />
+          <EggScanVisual active={active} />
           <div className="eggscan-audit__matrix" aria-hidden="true">
             {Array.from({length:24},(_,index)=><i style={{"--cell":index} as React.CSSProperties} key={index}/>) }
           </div>

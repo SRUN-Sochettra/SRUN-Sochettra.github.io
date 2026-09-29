@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { SynapseEvidenceVisual } from "@/components/system-visuals";
 
 const stages = [
   { id:"01", name:"Ingest", label:"Uploaded document", detail:"A source enters the research workspace." },
@@ -50,6 +51,7 @@ export default function SynapseDocPlayback() {
 
         <div className="architecture-playback__machine" style={{ "--active-stage":active } as React.CSSProperties}>
           <div className="architecture-playback__beam" aria-hidden="true" />
+          <SynapseEvidenceVisual active={active} />
           <ol>
             {stages.map((stage,index) => (
               <li data-state={index < active ? "complete" : index === active ? "active" : "pending"} key={stage.id}>

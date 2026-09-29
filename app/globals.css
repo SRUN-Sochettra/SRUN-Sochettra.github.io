@@ -671,3 +671,246 @@ html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!
 @media(max-width:1000px){.api-inspector{height:auto;margin-inline:calc(-1 * var(--edge))}.api-inspector__sticky{position:relative;min-height:auto;grid-template-columns:1fr}.api-inspector__console{min-height:38rem}}
 @media(max-width:700px){.api-inspector{margin-top:3rem}.api-inspector__console{min-height:auto}.api-inspector__pipeline{grid-template-columns:1fr}.api-inspector__pipeline button{grid-template-columns:2rem 1rem 1fr;justify-items:start;align-items:center;padding:.55rem 0}.api-inspector__pipeline li:not(:last-child)::after{left:2.45rem;right:auto;top:2rem;height:1.8rem;border-top:0;border-left:1px solid #3e463d}.api-inspector__panes{grid-template-columns:1fr}.api-inspector__footer{grid-template-columns:1fr 1fr;gap:.8rem}.api-inspector__footer span:not(:last-child){border:0}}
 @media(prefers-reduced-motion:reduce){.api-inspector{height:auto}.api-inspector__sticky{position:relative}.api-inspector__artifact,.api-inspector__readout{animation:none}.api-inspector__pipeline button i{transition:none}}
+/* Polished SVG art system */
+.gesture-lab__reticle circle,.gesture-lab__reticle path{fill:none;stroke:rgb(186 255 67 / 12%);stroke-width:.22}.gesture-lab__reticle circle:last-of-type{stroke-dasharray:1.4 2.2}.gesture-lab__skeleton line{stroke:#8fcf65;stroke-width:.48;stroke-linecap:round;opacity:.82;animation:gesture-bone-in 700ms cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--bone-index) * 24ms)}.gesture-lab__skeleton circle{fill:url(#hand-node);stroke:#f4f1e8;stroke-width:.16}.gesture-lab__skeleton circle[data-pinch="true"]{fill:#ff4935;stroke:#fff;filter:drop-shadow(0 0 .8px #ff4935)}.gesture-lab__telemetry path{fill:none;stroke:#72806f;stroke-width:.28}.gesture-lab__telemetry text{fill:#71816e;font:600 1.7px var(--mono);letter-spacing:.12em}.gesture-lab__pinch-line{stroke:#ff4935!important;stroke-width:.55!important;stroke-linecap:round;stroke-dasharray:1.2 1.2}@keyframes gesture-bone-in{from{stroke-dasharray:0 100;opacity:0}to{stroke-dasharray:100 0;opacity:.82}}
+.thnal-workflow__grid line{stroke:rgb(103 217 255 / 9%);stroke-width:.18}.thnal-workflow__route-shadow{fill:none;stroke:#67d9ff;stroke-width:2.2;opacity:.12;filter:url(#thnal-glow)}.thnal-workflow__route-main{fill:none;stroke:url(#thnal-route-gradient);stroke-width:.5;stroke-linecap:round;stroke-dasharray:2 1}.thnal-workflow__packet-glow{fill:#67d9ff;opacity:.3;filter:url(#thnal-glow)}.thnal-workflow__packet{fill:#f4f1e8;stroke:#67d9ff;stroke-width:.3}.thnal-workflow__node rect{fill:#0c181b;stroke:#415f67;stroke-width:.22;transition:fill .3s ease,stroke .3s ease,transform .4s cubic-bezier(.22,1,.36,1)}.thnal-workflow__node circle{fill:#536a70;stroke:none}.thnal-workflow__node text{fill:#738b91;font:600 1.85px var(--mono);letter-spacing:.05em;text-transform:uppercase}.thnal-workflow__node[data-state="complete"] rect{fill:#113b46;stroke:#67d9ff}.thnal-workflow__node[data-state="complete"] circle{fill:#67d9ff}.thnal-workflow__node[data-state="active"] rect{fill:#67d9ff;stroke:#f4f1e8;transform:scale(1.12)}.thnal-workflow__node[data-state="active"] circle{fill:#071215}.thnal-workflow__node[data-state="active"] text{fill:#f4f1e8}.thnal-workflow__legend circle{fill:#67d9ff}.thnal-workflow__legend text{fill:#667e84;font:600 1.6px var(--mono);letter-spacing:.08em}
+.rfid-console__trace-board path{fill:none;stroke:#536058;stroke-width:.28;stroke-linecap:round}.rfid-console__trace-nodes circle{fill:#10120f;stroke:#8a9a8d;stroke-width:.24}.rfid-console__live-trace{fill:none;stroke:url(#rfid-trace);stroke-width:.52;stroke-linecap:round;stroke-dasharray:1.5 1}.rfid-console__signal-glow{fill:#baff43;opacity:.3;filter:url(#rfid-trace-glow)}.rfid-console__signal-dot{fill:#f3f0e8;stroke:#baff43;stroke-width:.2}.rfid-console__trace-labels text{fill:#768177;font:600 1.6px var(--mono);letter-spacing:.08em}
+@media(prefers-reduced-motion:reduce){.gesture-lab__skeleton line{animation:none}.thnal-workflow__packet,.thnal-workflow__packet-glow,.rfid-console__signal-dot,.rfid-console__signal-glow{display:none}}
+
+/* Project-specific system illustration suite */
+.system-visual{display:block;width:100%;height:auto;overflow:visible;color:#f4f1e8}.system-visual__grid line{stroke:currentColor;stroke-width:.16;opacity:.08}.system-visual__label{fill:currentColor;font:600 1.65px var(--mono);letter-spacing:.1em;opacity:.55}.system-visual__ghost{fill:none;stroke:currentColor;stroke-width:2.4;opacity:.06}.system-visual__flow{fill:none;stroke:url(#synapse-flow);stroke-width:.55;stroke-dasharray:1.5 1;filter:drop-shadow(0 0 1px #59dfff)}.system-visual__node circle:first-child{fill:#0b0b10;stroke:#53616e;stroke-width:.25}.system-visual__node circle:nth-child(2){fill:#53616e}.system-visual__node text{fill:#79838b;font:600 1.7px var(--mono)}.system-visual__node[data-state="complete"] circle:first-child{stroke:#59dfff}.system-visual__node[data-state="complete"] circle:nth-child(2){fill:#59dfff}.system-visual__node[data-state="active"] circle:first-child{fill:#59dfff;stroke:#f4f1e8;filter:drop-shadow(0 0 2px #59dfff)}.system-visual__node[data-state="active"] circle:nth-child(2){fill:#071014}.system-visual__node[data-state="active"] text{fill:#f4f1e8}.system-visual__pulse{fill:#baff43;filter:drop-shadow(0 0 2px #baff43)}
+.architecture-playback__machine>.system-visual{margin:0 0 clamp(1rem,2vw,1.75rem);border-bottom:1px solid rgb(255 255 255/8%);padding-bottom:1rem}
+.eggscan-audit__terminal>.system-visual{position:relative;z-index:2;margin-bottom:1rem}.eggscan-spectrum rect{fill:url(#egg-wave);opacity:.62;transform-origin:center 44px;animation:egg-spectrum 1.8s ease-in-out infinite alternate;animation-delay:calc(var(--bar)*-90ms)}.eggscan-shell{fill:rgb(255 73 53/4%);stroke:#ff806d;stroke-width:.42;stroke-dasharray:1.4 1}.eggscan-wave{fill:none;stroke:url(#egg-wave);stroke-width:.55;stroke-linejoin:round;filter:drop-shadow(0 0 1.2px #ff4935)}.eggscan-reticle>*{fill:none;stroke:#ffb74d;stroke-width:.22;opacity:.55}.eggscan-reticle circle{stroke-dasharray:1 1.4}@keyframes egg-spectrum{to{transform:scaleY(.42);opacity:.3}}
+.hyperspace-desktop__screen>.system-visual{position:absolute;inset:8% 7% auto auto;width:48%;z-index:1;opacity:.9}.hyper-orbits ellipse{fill:none;stroke:#67d9ff;stroke-width:.2;stroke-dasharray:1.2 1.8;opacity:.36}.hyper-core{animation:hyper-core 3s ease-in-out infinite alternate}.hyper-app rect{fill:#101329;stroke:#69708b;stroke-width:.25}.hyper-app path{fill:none;stroke:#69708b;stroke-width:.22}.hyper-app[data-state="active"] rect{fill:#1a3150;stroke:#67d9ff;filter:drop-shadow(0 0 1.5px #67d9ff)}.hyper-app[data-state="active"] path{stroke:#dff8ff}.hyper-cursor{fill:#f4f1e8;stroke:#171923;stroke-width:.25;transition:d .45s cubic-bezier(.22,1,.36,1)}@keyframes hyper-core{to{opacity:.55;transform:scale(.88);transform-origin:50px 25px}}
+.api-inspector__console>.system-visual{border-bottom:1px solid rgb(255 255 255/9%);padding:1rem}.api-contract-flow path{fill:none;stroke:url(#api-flow);stroke-width:.35;opacity:.65}.api-contract-flow marker path{fill:#67d9ff}.api-contract-layer rect{fill:#0b1110;stroke:#425048;stroke-width:.25}.api-contract-layer text{fill:#6d7a71;font:700 2px var(--mono);letter-spacing:.05em}.api-contract-layer circle{fill:#425048}.api-contract-layer[data-state="complete"] rect{stroke:#baff43}.api-contract-layer[data-state="complete"] circle{fill:#baff43}.api-contract-layer[data-state="active"] rect{fill:#baff43;stroke:#f4f1e8;filter:drop-shadow(0 0 1.5px #baff43)}.api-contract-layer[data-state="active"] text{fill:#071008}.api-contract-packet{transition:transform .45s cubic-bezier(.22,1,.36,1)}.api-contract-packet rect{fill:#67d9ff;stroke:#f4f1e8;stroke-width:.18}.api-contract-packet text{fill:#071008;font:700 1.5px var(--mono)}
+@media(max-width:760px){.hyperspace-desktop__screen>.system-visual{width:58%;inset:12% 3% auto auto}.system-visual__label{font-size:1.9px}}
+@media(prefers-reduced-motion:reduce){.system-visual__pulse,.eggscan-spectrum rect,.hyper-core{animation:none}.system-visual__pulse{display:none}}
+/* Narrow positioning pass: preserve each original interface and only seat the new art. */
+@media (min-width: 1001px) {
+  .architecture-playback__machine {
+    grid-template-rows: minmax(11rem, 15rem) auto auto auto;
+    align-content: center;
+  }
+  .architecture-playback__machine > .system-visual {
+    align-self: end;
+    justify-self: center;
+    width: min(92%, 52rem);
+    max-height: 15rem;
+    margin: 1.4rem auto 0;
+    padding: 0;
+    border: 0;
+  }
+  .architecture-playback__machine ol {
+    padding: 1.1rem 0 1.35rem;
+  }
+  .architecture-playback__beam {
+    top: calc(15rem + 3.65rem);
+  }
+
+  .eggscan-audit__terminal {
+    grid-template-rows: minmax(12rem, 15rem) auto auto auto;
+    align-content: center;
+  }
+  .eggscan-audit__terminal > .system-visual {
+    align-self: end;
+    justify-self: center;
+    width: min(82%, 45rem);
+    max-height: 15rem;
+    margin: 1.4rem auto .5rem;
+  }
+  .eggscan-audit__matrix {
+    inset: 17% 7% 34%;
+    opacity: .28;
+  }
+  .eggscan-audit__scan {
+    top: 39%;
+  }
+
+  .api-inspector__console {
+    grid-template-rows: auto minmax(10rem, 13rem) auto auto auto;
+    align-content: center;
+  }
+  .api-inspector__console > .system-visual {
+    align-self: center;
+    justify-self: center;
+    width: min(84%, 46rem);
+    max-height: 13rem;
+    margin: .7rem auto .25rem;
+    padding: .35rem 0 .65rem;
+  }
+  .api-inspector__pipeline {
+    padding: .75rem 0 1rem;
+  }
+}
+
+@media (max-width: 1000px) {
+  .architecture-playback__machine > .system-visual,
+  .eggscan-audit__terminal > .system-visual,
+  .api-inspector__console > .system-visual {
+    display: block;
+    width: min(100%, 44rem);
+    max-height: 16rem;
+    margin: 2.5rem auto 1rem;
+  }
+}
+
+/* API composition: compact map + vertical trace, while preserving the artifact panes. */
+@media (min-width: 1001px) {
+  .api-inspector__console {
+    grid-template-columns: minmax(0, 1.55fr) minmax(10rem, .65fr);
+    grid-template-rows: minmax(12rem, 15rem) minmax(0, 1fr) auto;
+    column-gap: clamp(1rem, 2vw, 2rem);
+    align-content: stretch;
+  }
+  .api-inspector__console > .system-visual {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+    width: min(100%, 43rem);
+    max-height: 14rem;
+    margin: 0 auto;
+    padding: .5rem 0;
+    border: 0;
+  }
+  .api-inspector__pipeline {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .22rem;
+    margin: 0;
+    padding: .2rem 0;
+    border-left: 1px solid #30382e;
+  }
+  .api-inspector__pipeline li:not(:last-child)::after {
+    left: 1.34rem;
+    right: auto;
+    top: 2.05rem;
+    bottom: -.35rem;
+    border-top: 0;
+    border-left: 1px solid #3e463d;
+  }
+  .api-inspector__pipeline button {
+    grid-template-columns: 1.35rem .9rem 1fr;
+    justify-items: start;
+    align-items: center;
+    gap: .65rem;
+    min-height: 2.25rem;
+    padding: .2rem .5rem;
+    text-align: left;
+  }
+  .api-inspector__pipeline button i {
+    width: .72rem;
+  }
+  .api-inspector__panes {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-height: 0;
+  }
+  .api-inspector__footer {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+}
+
+/* Final API balance: one centered system map, compact controls, immediate evidence. */
+@media (min-width: 1001px) {
+  .api-inspector__console {
+    min-height: min(68svh, 43rem);
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(10rem, 12rem) auto minmax(15rem, 1fr) auto;
+    row-gap: .35rem;
+    padding-inline: clamp(1.5rem, 3vw, 2.8rem);
+  }
+  .api-inspector__console > .system-visual {
+    grid-column: 1;
+    grid-row: 1;
+    width: min(76%, 42rem);
+    max-height: 12rem;
+    margin: .65rem auto 0;
+    padding: 0;
+    border: 0;
+  }
+  .api-inspector__pipeline {
+    grid-column: 1;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-self: start;
+    gap: 0;
+    margin: 0;
+    padding: .35rem 0 .85rem;
+    border: 0;
+    border-bottom: 1px solid #30382e;
+  }
+  .api-inspector__pipeline li:not(:last-child)::after {
+    left: 56%;
+    right: -44%;
+    top: 1.75rem;
+    bottom: auto;
+    border: 0;
+    border-top: 1px solid #3e463d;
+  }
+  .api-inspector__pipeline button {
+    min-height: auto;
+    grid-template-columns: none;
+    justify-items: center;
+    gap: .45rem;
+    padding: .1rem 0;
+    text-align: center;
+  }
+  .api-inspector__pipeline button i { width: .8rem; }
+  .api-inspector__panes {
+    grid-column: 1;
+    grid-row: 3;
+    min-height: 15rem;
+    align-self: stretch;
+  }
+  .api-inspector__artifact,
+  .api-inspector__readout {
+    padding: clamp(1.25rem, 2vw, 2rem);
+  }
+  .api-inspector__readout strong {
+    font-size: clamp(2rem, 3.2vw, 3.8rem);
+  }
+  .api-inspector__footer { grid-column: 1; grid-row: 4; }
+}
+
+/* Explicit navigator retraction. Uses translate, independent of the arrival animation's transform. */
+.case-command__controls {
+  position: relative;
+  display: flex;
+  width: calc(100% + 1.7rem);
+  margin: -.85rem -.85rem .8rem;
+}
+.case-command__controls .case-command__handle {
+  width: 100%;
+  margin: 0;
+  padding-right: 2.4rem;
+}
+.case-command__retract {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 2.25rem;
+  border: 0;
+  border-left: 1px solid var(--line);
+  background: rgb(186 255 67 / 10%);
+  color: var(--acid);
+  font: 700 1rem/1 var(--mono);
+  cursor: pointer;
+}
+.case-command__retract:hover,
+.case-command__retract:focus-visible { background: var(--acid); color: #080a0a; }
+@media (min-width: 1281px) {
+  .case-command--movable {
+    transition: translate 320ms cubic-bezier(.22,1,.36,1), left 460ms cubic-bezier(.22,1,.36,1), top 460ms cubic-bezier(.22,1,.36,1), border-color 220ms ease, box-shadow 320ms ease, transform 320ms cubic-bezier(.22,1,.36,1);
+  }
+  .case-command--movable[data-retracted="true"][data-docked="left"] { translate: calc(-100% + 2.8rem) 0; }
+  .case-command--movable[data-retracted="true"][data-docked="right"] { translate: calc(100% - 2.8rem) 0; }
+  .case-command--movable[data-retracted="false"],
+  .case-command--movable[data-dragging="true"] { translate: 0 0; }
+}

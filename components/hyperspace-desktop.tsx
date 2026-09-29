@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { HyperspaceVisual } from "@/components/system-visuals";
 
 const scenes = [
   { id:"01", name:"Shell", title:"Desktop metaphor", detail:"The browser becomes a desktop-like interaction surface." },
@@ -51,6 +52,7 @@ export default function HyperspaceDesktop() {
 
         <div className="hyperspace-desktop__screen">
           <div className="hyperspace-desktop__wallpaper" aria-hidden="true"><i/><i/><i/></div>
+          <HyperspaceVisual active={active} />
           <div className="hyperspace-desktop__menubar"><span>HYPERSPACE</span><span>Workspace 01</span><span>React / TypeScript</span></div>
           <div className="hyperspace-window hyperspace-window--files" data-active={active >= 0}>
             <div><span>● ● ●</span><b>Navigator</b></div><ul><li>Desktop</li><li>Applications</li><li>Windows</li><li>System</li></ul>

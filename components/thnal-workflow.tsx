@@ -54,9 +54,26 @@ export default function ThnalWorkflow() {
             <span>Organization</span><span>Interface</span><span>Application</span><span>Database</span><span>Evidence</span>
           </div>
           <svg className="thnal-workflow__route" viewBox="0 0 100 64" role="img" aria-label={`Active workflow phase: ${phase.name}`}>
-            <path d="M8 10 C28 10 20 26 38 26 S50 40 61 40 S71 54 92 54" pathLength="1" />
-            <circle className="thnal-workflow__packet" r="1.35"><animateMotion dur="4s" repeatCount="indefinite" path="M8 10 C28 10 20 26 38 26 S50 40 61 40 S71 54 92 54"/></circle>
-            {[[8,10],[30,22],[50,34],[70,46],[92,54]].map(([x,y],index)=><g data-state={index < active ? "complete" : index === active ? "active" : "pending"} transform={`translate(${x} ${y})`} key={index}><circle r="3.2"/><text y="7" textAnchor="middle">{phases[index].name}</text></g>)}
+            <defs>
+              <linearGradient id="thnal-route-gradient" x1="0" x2="1">
+                <stop offset="0" stopColor="#67d9ff"/><stop offset=".52" stopColor="#f4f1e8"/><stop offset="1" stopColor="#67d9ff"/>
+              </linearGradient>
+              <filter id="thnal-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.1"/></filter>
+              <marker id="thnal-arrow" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0l6 3-6 3z" fill="#67d9ff"/></marker>
+            </defs>
+            <g className="thnal-workflow__grid" aria-hidden="true">
+              {[20,40,60,80].map(x=><line x1={x} y1="5" x2={x} y2="59" key={`v-${x}`}/>)}
+              {[16,32,48].map(y=><line x1="4" y1={y} x2="96" y2={y} key={`h-${y}`}/>)}
+            </g>
+            <path className="thnal-workflow__route-shadow" d="M8 12 C21 12 22 22 31 22 S43 32 50 32 S61 43 69 43 S80 54 92 54"/>
+            <path className="thnal-workflow__route-main" d="M8 12 C21 12 22 22 31 22 S43 32 50 32 S61 43 69 43 S80 54 92 54" pathLength="1" markerEnd="url(#thnal-arrow)"/>
+            <circle className="thnal-workflow__packet-glow" r="3"><animateMotion dur="4s" repeatCount="indefinite" path="M8 12 C21 12 22 22 31 22 S43 32 50 32 S61 43 69 43 S80 54 92 54"/></circle>
+            <circle className="thnal-workflow__packet" r="1.25"><animateMotion dur="4s" repeatCount="indefinite" path="M8 12 C21 12 22 22 31 22 S43 32 50 32 S61 43 69 43 S80 54 92 54"/></circle>
+            {[[8,12],[30,22],[50,32],[70,43],[92,54]].map(([x,y],index)=><g className="thnal-workflow__node" data-state={index < active ? "complete" : index === active ? "active" : "pending"} transform={`translate(${x} ${y})`} key={index}>
+              <rect x="-5.4" y="-4" width="10.8" height="8" rx="1.2"/><circle r="1.35"/>
+              <text y="8" textAnchor="middle">0{index + 1} / {phases[index].name}</text>
+            </g>)}
+            <g className="thnal-workflow__legend" aria-hidden="true"><circle cx="8" cy="58" r=".8"/><text x="11" y="59">VERIFIED FLOW</text></g>
           </svg>
           <div className="thnal-workflow__record" key={phase.id} aria-live="polite">
             <span>Workflow {phase.id} / 05</span>

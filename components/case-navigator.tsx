@@ -46,6 +46,7 @@ export default function CaseNavigator({ projectName, projectNumber, sections }: 
   const [position, setPosition] = useState<Position | null>(null);
   const [dragging, setDragging] = useState(false);
   const [docked, setDocked] = useState<"left" | "right">("right");
+  const [retracted, setRetracted] = useState(true);
 
   useEffect(() => {
     // Sections arrive as a prop; the DOM is queried only to track scroll position.
@@ -143,6 +144,7 @@ export default function CaseNavigator({ projectName, projectNumber, sections }: 
       originX: position.x,
       originY: position.y,
     };
+    setRetracted(false);
     setDragging(true);
     event.currentTarget.setPointerCapture(event.pointerId);
     window.addEventListener("pointermove", move);
@@ -168,13 +170,19 @@ export default function CaseNavigator({ projectName, projectNumber, sections }: 
       className="case-command case-command--movable"
       data-dragging={dragging}
       data-docked={docked}
+      data-retracted={retracted}
       aria-label="Case study progress"
       style={position ? { left: position.x, top: position.y } : undefined}
     >
-      <button className="case-command__handle" type="button" onPointerDown={startDrag} onDoubleClick={resetPosition} aria-label="Move case-study navigator. Double-click to reset position.">
-        <span aria-hidden="true">••••••</span>
-        <b>{dragging ? "Moving" : "Drag panel"}</b>
-      </button>
+      <div className="case-command__controls">
+        <button className="case-command__handle" type="button" onPointerDown={startDrag} onDoubleClick={resetPosition} aria-label="Move case-study navigator. Double-click to reset position.">
+          <span aria-hidden="true">••••••</span>
+          <b>{dragging ? "Moving" : "Drag panel"}</b>
+        </button>
+        <button className="case-command__retract" type="button" onClick={() => setRetracted((value) => !value)} aria-expanded={!retracted} aria-label={retracted ? "Expand case-study navigator" : "Retract case-study navigator"}>
+          <span aria-hidden="true">{retracted ? (docked === "left" ? "›" : "‹") : (docked === "left" ? "‹" : "›")}</span>
+        </button>
+      </div>
       <div className="case-command__identity">
         <span>{projectNumber}</span>
         <p>{projectName}</p>

@@ -63,8 +63,23 @@ export default function RfidConsole() {
             <i aria-hidden="true" />
           </div>
           <svg viewBox="0 0 100 50" className="rfid-console__wiring" aria-hidden="true">
-            <path d="M18 25 H42 C48 25 47 35 54 35 H75" />
-            <circle r="1.2"><animateMotion dur="2s" repeatCount="indefinite" path="M18 25 H42 C48 25 47 35 54 35 H75"/></circle>
+            <defs>
+              <filter id="rfid-trace-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation=".65"/></filter>
+              <linearGradient id="rfid-trace" x1="0" x2="1"><stop stopColor="#8be3d9"/><stop offset=".55" stopColor="#baff43"/><stop offset="1" stopColor="#8ef6ff"/></linearGradient>
+            </defs>
+            <g className="rfid-console__trace-board">
+              <path d="M12 19H39Q45 19 45 25V29Q45 35 51 35H78"/>
+              <path d="M14 23H36Q41 23 41 28V32Q41 39 48 39H72"/>
+              <path d="M50 13V22Q50 27 56 27H83"/>
+              <path d="M58 12V20Q58 23 62 23H87"/>
+            </g>
+            <g className="rfid-console__trace-nodes">
+              {[[12,19],[14,23],[50,13],[58,12],[78,35],[72,39],[83,27],[87,23]].map(([x,y],index)=><circle cx={x} cy={y} r=".8" key={index}/>)}
+            </g>
+            <path className="rfid-console__live-trace" d="M12 19H39Q45 19 45 25V29Q45 35 51 35H78"/>
+            <circle className="rfid-console__signal-glow" r="2.4"><animateMotion dur="2.4s" repeatCount="indefinite" path="M12 19H39Q45 19 45 25V29Q45 35 51 35H78"/></circle>
+            <circle className="rfid-console__signal-dot" r=".9"><animateMotion dur="2.4s" repeatCount="indefinite" path="M12 19H39Q45 19 45 25V29Q45 35 51 35H78"/></circle>
+            <g className="rfid-console__trace-labels"><text x="12" y="16">RFID / SPI</text><text x="73" y="32">OLED / I2C</text></g>
           </svg>
           <div className="rfid-console__readout" key={`readout-${state.id}`}>
             <span>State {state.id} / 05</span><strong>{state.headline}</strong><p>{state.detail}</p>

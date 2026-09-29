@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { ApiContractVisual } from "@/components/system-visuals";
 
 const stages = [
   { id:"01", name:"Request", title:"Explicit HTTP input", detail:"The route begins with a clear request contract.", artifact:'POST /api/posts\nContent-Type: application/json' },
@@ -51,6 +52,7 @@ export default function ApiContractInspector() {
 
         <div className="api-inspector__console">
           <div className="api-inspector__toolbar"><span>SPRING BOOT / API TRACE</span><span>JAVA</span><span>POSTGRESQL</span></div>
+          <ApiContractVisual active={active} />
           <ol className="api-inspector__pipeline">
             {stages.map((item,index)=><li data-state={index < active ? "complete" : index === active ? "active" : "pending"} key={item.id}><button type="button" onClick={()=>setActive(index)}><span>{item.id}</span><i/><b>{item.name}</b></button></li>)}
           </ol>
