@@ -39,7 +39,7 @@ export const projects: readonly Project[] = [
     summary: "A deployed document-research system with citation-grounded chat, multi-provider routing, reranking, streaming, and persistent conversations.",
     problem: "Make document research traceable by grounding answers in uploaded sources and preserving citations with the conversation.",
     stack: ["Next.js", "TypeScript", "Supabase", "Gemini", "Groq", "Mistral", "Cohere"], featured: true,
-    direct: "https://github.com/SRUN-Sochettra/Research-AI", status: "Deployed", role: "Full-stack developer", context: "Personal applied-AI project",
+    direct: "https://github.com/SRUN-Sochettra/SynapseDoc", status: "Deployed", role: "Full-stack developer", context: "Personal applied-AI project",
     ownership: ["Document ingestion and retrieval", "Provider routing and streaming chat", "Conversation and citation persistence", "Deployment verification"],
     verification: ["Local format, type-check, lint, tests, and Next.js build passed", "A bounded production upload-to-chat flow was manually exercised"],
     limitations: ["Broad load and failover resilience remain unproven", "Scanned-PDF OCR remains Gemini-only with a single-page mapping limitation"],
@@ -107,7 +107,7 @@ export const projects: readonly Project[] = [
   {
     slug: "spring-boot-blog-api", name: "Spring Boot Blog API", category: "Backend REST API",
     summary: "A Java and Spring Boot API focused on explicit HTTP contracts, persistence, validation, and maintainable backend structure.",
-    stack: ["Java", "Spring Boot", "PostgreSQL", "REST APIs"], direct: "https://github.com/SRUN-Sochettra/Spring-Boot---API-Blog",
+    stack: ["Java", "Spring Boot", "PostgreSQL", "REST APIs"], direct: "https://github.com/SRUN-Sochettra/spring-boot-blog-api",
     role: "Backend developer", context: "Personal learning project",
     evidence: { overview: "A backend project for practicing Spring Boot API design, database persistence, validation, and predictable HTTP responses.", features: [
       { title: "REST contracts", desc: "Routes expose explicit request and response behavior." },
@@ -136,7 +136,7 @@ export const projects: readonly Project[] = [
   {
     slug: "hand-gesture-puzzle", name: "Hand Gesture Puzzle Game", category: "Computer vision game",
     summary: "A webcam puzzle controlled through real-time hand tracking, pinch gestures, moving targets, and progressive levels.",
-    stack: ["Python", "OpenCV", "MediaPipe"], direct: "https://github.com/SRUN-Sochettra/Hand-Gesture-Puzzle-Game", license: "MIT",
+    stack: ["Python", "OpenCV", "MediaPipe"], direct: "https://github.com/SRUN-Sochettra/hand-gesture-puzzle", license: "MIT",
     role: "Team developer", context: "Academic team project",
     evidence: { credits: "Srun Sochettra, Tep Makara & Sar Chanrithy", overview: "A webcam-based puzzle game controlled with real-time hand gestures across five levels.", features: [
       { title: "Real-time tracking", desc: "MediaPipe Hands reads webcam landmarks frame by frame." },
